@@ -1,0 +1,21 @@
+Version: 1.0
+ProjectId: b611b138-1d3b-4ceb-ad8c-48690c061fb4
+
+RestoreWorkspace: Default
+SaveWorkspace: Default
+AlwaysSaveHistory: Default
+
+EnableCodeIndexing: Yes
+UseSpacesForTab: Yes
+NumSpacesForTab: 2
+Encoding: UTF-8
+
+RnwWeave: Sweave
+LaTeX: pdfLaTeX
+
+AutoAppendNewline: Yes
+StripTrailingWhitespace: Yes
+
+BuildType: Website
+
+ProjectName: CommerfordBIOL6100

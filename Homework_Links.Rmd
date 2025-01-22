@@ -1,0 +1,14 @@
+---
+title: "Homework_Links"
+author: "Audrey Commerford"
+date: "2025-01-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here are the links to my homework assignments. 
+
+[Homework 1](HW1_link)
