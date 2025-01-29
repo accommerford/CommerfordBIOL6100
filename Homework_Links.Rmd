@@ -11,5 +11,5 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Here are the links to my homework assignments. 
 
-[Homework 3](https://accommerford.github.io/CommerfordBIOL6100/Homework3.html)
+[Homework 3](Homework3.html)
 
