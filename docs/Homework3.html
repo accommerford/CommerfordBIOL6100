@@ -11,9 +11,9 @@
 
 <meta name="author" content="Audrey Commerford" />
 
-<meta name="date" content="2025-01-22" />
+<meta name="date" content="2025-01-29" />
 
-<title>Homework Assignments</title>
+<title>Homework 3</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -265,17 +265,87 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Homework Assignments</h1>
+<h1 class="title toc-ignore">Homework 3</h1>
 <h4 class="author">Audrey Commerford</h4>
-<h4 class="date">2025-01-22</h4>
+<h4 class="date">2025-01-29</h4>
 
 </div>
 
 
-<p>Here are the links to my homework assignments.</p>
-<p><a
-href="https://accommerford.github.io/CommerfordBIOL6100/Homework3.html">Homework
-3</a></p>
+<ol style="list-style-type: decimal">
+<li>To solve this problem, I used quantifiers to search for 2 or more
+spaces and replaced these with commas while leaving the single spaces
+untouched.</li>
+</ol>
+<pre><code>Find:\s{2,}
+Replace:,</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>For this problem, I first figured out how to break down the list
+into components. For the first two words, I identified a each word
+followed by a comma and a space. For the last component, the school
+name, I used the command to identify everything else that was not
+selected to keep the school name grouped together, even though some were
+multiple words. With each component identified, I replaced the string
+with the first name followed by the last name, and the school name in
+parentheses.</li>
+</ol>
+<pre><code>Find:(\w+),\s(\w+), (\w+.*)
+Replace: \2 \1 (\3)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>To separate the different titles onto different lines, I isolated
+the track numbers by identifying a space followed by two or more digits
+followed by another space. I then fenced the digits followed by the
+space and replaced the first space with a line break to separate each
+track onto its own line.</li>
+</ol>
+<pre><code>Find:\s(\d{2,}\s)
+Replace:\n\1</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>To move the four digit track number to the end of the title, I
+isolated the track number by searching for a four digit number. I then
+searched for a space and the remaining characters followed by a period
+and one or more characters. I fenced each word or numerical value and
+then rearranged the components so that the track name (2) is followed by
+an underscore and the track number (1), and then .mp3 (3).</li>
+</ol>
+<pre><code>Find:(\d{4})\s(\w.*)(\.)(\w+)
+Replace:\2_\1.\3</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>I first broke down each component of the string, fencing the first
+letter of the first word, the second word, and the second string of
+digits. I then rearranged this by replacing it with first letter of the
+genus (1), underscore, the species name (2), comma, and the numerical
+value (3).</li>
+</ol>
+<pre><code>Find:(\w)\w+\,(\w+)\,\w+.*\,(\d+)
+Replace:\1_\2,\3</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li>I modified my initial search slightly by searching for the first
+four letters of the species name followed by the remainder of the word.
+I then fenced only the first four letters and used the same
+replacement.</li>
+</ol>
+<pre><code>Find:(\w)\w+\,(\w{4})\w+\,\w+.*\,(\d+)
+Replace:\1_\2,\3</code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>I modified the previous search again, this time searching for the
+first three characters of both names and fencing these. I also fenced
+both numerical values instead of only one. I then replaced it with the
+first three letters of the genus (1), first three letters of the species
+(2), a comma and space, the second numerical value (4), a comma and a
+space, and the first numerical value (3).</li>
+</ol>
+<pre><code>Find:(\w{3})\w+\,(\w{3})\w+\,(\w+.*)\,(\d+) 
+Replace:\1\2, \4, \3</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>First, I replaced the NA values in the pathogen_binary column with
+0.</li>
+</ol>
+<pre><code>Find:\t\NA\t
+Replace:\t0\t</code></pre>
+<p>Then, I selected all non-numeric characters except periods and
+forward slash and then deleted them.</p>
+<pre><code>Find:[^a-zA-Z\d\s:./]</code></pre>
 
 
 

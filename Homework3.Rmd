@@ -1,0 +1,57 @@
+---
+title: "Homework 3"
+author: "Audrey Commerford"
+date: "2025-01-29"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. To solve this problem, I used quantifiers to search for 2 or more spaces and replaced these with commas while leaving the single spaces untouched. 
+```
+Find:\s{2,}
+Replace:,
+```
+2. For this problem, I first figured out how to break down the list into components. For the first two words, I identified a each word followed by a comma and a space. For the last component, the school name, I used the command to identify everything else that was not selected to keep the school name grouped together, even though some were multiple words. With each component identified, I replaced the string with the first name followed by the last name, and the school name in parentheses. 
+```
+Find:(\w+),\s(\w+), (\w+.*)
+Replace: \2 \1 (\3)
+```
+3. To separate the different titles onto different lines, I isolated the track numbers by identifying a space followed by two or more digits followed by another space. I then fenced the digits followed by the space and replaced the first space with a line break to separate each track onto its own line. 
+```
+Find:\s(\d{2,}\s)
+Replace:\n\1
+```
+4. To move the four digit track number to the end of the title, I isolated the track number by searching for a four digit number. I then searched for a space and the remaining characters followed by a period and one or more characters. I fenced each word or numerical value and then rearranged the components so that the track name (2) is followed by an underscore and the track number (1), and then .mp3 (3). 
+```
+Find:(\d{4})\s(\w.*)(\.)(\w+)
+Replace:\2_\1.\3
+```
+5. I first broke down each component of the string, fencing the first letter of the first word, the second word, and the second string of digits. I then rearranged this by replacing it with first letter of the genus (1), underscore, the species name (2), comma, and the numerical value (3). 
+```
+Find:(\w)\w+\,(\w+)\,\w+.*\,(\d+)
+Replace:\1_\2,\3
+```
+
+6. I modified my initial search slightly by searching for the first four letters of the species name followed by the remainder of the word. I then fenced only the first four letters and used the same replacement. 
+```
+Find:(\w)\w+\,(\w{4})\w+\,\w+.*\,(\d+)
+Replace:\1_\2,\3
+```
+7. I modified the previous search again, this time searching for the first three characters of both names and fencing these. I also fenced both numerical values instead of only one. I then replaced it with the first three letters of the genus (1), first three letters of the species (2), a comma and space, the second numerical value (4), a comma and a space, and the first numerical value (3). 
+```
+Find:(\w{3})\w+\,(\w{3})\w+\,(\w+.*)\,(\d+) 
+Replace:\1\2, \4, \3
+```
+8. First, I replaced the NA values in the pathogen_binary column with 0. 
+```
+Find:\t\NA\t
+Replace:\t0\t
+```
+
+Then, I selected all non-numeric characters except periods and forward slash and then deleted them. 
+```
+Find:[^a-zA-Z\d\s:./]
+```
