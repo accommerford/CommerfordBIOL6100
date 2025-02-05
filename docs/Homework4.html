@@ -11,9 +11,9 @@
 
 <meta name="author" content="Audrey Commerford" />
 
-<meta name="date" content="2025-01-22" />
+<meta name="date" content="2025-02-05" />
 
-<title>Homework Assignments</title>
+<title>Homework 4</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -265,16 +265,91 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Homework Assignments</h1>
+<h1 class="title toc-ignore">Homework 4</h1>
 <h4 class="author">Audrey Commerford</h4>
-<h4 class="date">2025-01-22</h4>
+<h4 class="date">2025-02-05</h4>
 
 </div>
 
 
-<p>Here are the links to my homework assignments.</p>
-<p><a href="Homework3.html">Homework 3</a></p>
-<p><a href="Homework4.html">Homework 4</a></p>
+<ol style="list-style-type: decimal">
+<li>Suppose <em>x</em>=1.1, <em>a</em>=2.2, and <em>b</em>=3.3. Assign
+each expression to the value of the variable z and print the value
+stored in z.</li>
+</ol>
+<pre class="r"><code>x &lt;- 1.1
+a &lt;- 2.2
+b &lt;- 3.3
+
+z &lt;- x^(a^b)
+print(z)</code></pre>
+<pre><code>## [1] 3.61714</code></pre>
+<pre class="r"><code>z &lt;- (x^a)^b
+print(z)</code></pre>
+<pre><code>## [1] 1.997611</code></pre>
+<pre class="r"><code>z &lt;- 3*x^3 + 2*x^2 + 1
+print(z)</code></pre>
+<pre><code>## [1] 7.413</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Using the <code>rep</code> and <code>seq</code> functions, create
+the following vectors:</li>
+</ol>
+<pre class="r"><code>a &lt;- c(1:8, 7:1)
+print(a)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 6 7 8 7 6 5 4 3 2 1</code></pre>
+<pre class="r"><code>b &lt;- rep(x=1:5, times=1:5)
+print(b)</code></pre>
+<pre><code>##  [1] 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5</code></pre>
+<pre class="r"><code>c &lt;- rep(x=5:1, times=1:5)
+print(c)</code></pre>
+<pre><code>##  [1] 5 4 4 3 3 3 2 2 2 2 1 1 1 1 1</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Create a vector of two random uniform numbers. In a spatial map,
+these can be interpreted as <em>x</em> and <em>y</em> coordinates that
+give the location of an individual (such as a marked forest tree in a
+plot that has been mapped). Using one of Rs inverse trigonometry
+functions (<code>asin()</code>, <code>acos()</code>, or
+<code>atan()</code>) convert these numbers into polar coordinates.</li>
+</ol>
+<pre class="r"><code>point &lt;- runif(2)
+print(point)</code></pre>
+<pre><code>## [1] 0.1913358 0.2270387</code></pre>
+<pre class="r"><code>r &lt;- (point[1]^2 + point[2]^2)^(1/2)
+print(r)</code></pre>
+<pre><code>## [1] 0.2969107</code></pre>
+<pre class="r"><code>theta &lt;- atan(point[2]/point[1])
+print(theta)</code></pre>
+<pre><code>## [1] 0.870529</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Create a vector
+<code>queue &lt;- c("sheep", "fox", "owl", "ant")</code> where
+<code>queue</code> represents the animals that are lined up to enter
+Noah’s Ark, with the sheep at the front of the line. Using R
+expressions, update <code>queue</code> as: the serpent arrives and gets
+in line; the sheep enters the ark; the donkey arrives and talks his way
+to the front of the line; the serpent gets impatient and leaves; the owl
+gets bored and leaves; the aphid arrives and the ant invites him to cut
+in line. Finally, determine the position of the aphid in the line.</li>
+</ol>
+<pre class="r"><code>queue &lt;- c(&quot;sheep&quot;, &quot;fox&quot;, &quot;owl&quot;, &quot;ant&quot;)
+queue &lt;- c(queue, &quot;serpent&quot;)
+queue &lt;- queue[-c(1)]
+queue &lt;- c(&quot;donkey&quot;, queue)
+queue &lt;- queue[-c(5)]
+queue &lt;- queue[-c(3)]
+queue &lt;- c(queue[1:2], &quot;aphid&quot;, queue[3])
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;aphid&quot;  &quot;ant&quot;</code></pre>
+<p>The aphid is third in line.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Use R to create a vector of all of the integers from 1 to 100 that
+are not divisible by 2, 3, or 7.</li>
+</ol>
+<pre class="r"><code>vector &lt;- 1:100
+vector &lt;- which((vector %% 2) != 0 &amp; (vector %% 3) != 0 &amp; (vector %% 7 != 0))
+print(vector)</code></pre>
+<pre><code>##  [1]  1  5 11 13 17 19 23 25 29 31 37 41 43 47 53 55 59 61 65 67 71 73 79 83 85
+## [26] 89 95 97</code></pre>
 
 
 

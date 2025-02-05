@@ -1,0 +1,76 @@
+---
+title: "Homework 4"
+author: "Audrey Commerford"
+date: "2025-02-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. Suppose *x*=1.1, *a*=2.2, and *b*=3.3. Assign each expression to the value of the variable z and print the value stored in z. 
+```{r}
+x <- 1.1
+a <- 2.2
+b <- 3.3
+
+z <- x^(a^b)
+print(z)
+
+z <- (x^a)^b
+print(z)
+
+z <- 3*x^3 + 2*x^2 + 1
+print(z)
+```
+
+2. Using the `rep` and `seq` functions, create the following vectors: 
+```{r}
+a <- c(1:8, 7:1)
+print(a)
+
+b <- rep(x=1:5, times=1:5)
+print(b)
+
+c <- rep(x=5:1, times=1:5)
+print(c)
+```
+
+3. Create a vector of two random uniform numbers. In a spatial map, these can be interpreted as *x* and *y* coordinates that give the location of an individual (such as a marked forest tree in a plot that has been mapped). Using one of Rs inverse trigonometry functions (`asin()`, `acos()`, or `atan()`) convert these numbers into polar coordinates. 
+```{r}
+point <- runif(2)
+print(point)
+r <- (point[1]^2 + point[2]^2)^(1/2)
+print(r)
+theta <- atan(point[2]/point[1])
+print(theta)
+```
+
+4. Create a vector `queue <- c("sheep", "fox", "owl", "ant")` where `queue` represents the animals that are lined up to enter Noah’s Ark, with the sheep at the front of the line. Using R expressions, update `queue` as:
+the serpent arrives and gets in line;
+the sheep enters the ark;
+the donkey arrives and talks his way to the front of the line;
+the serpent gets impatient and leaves;
+the owl gets bored and leaves;
+the aphid arrives and the ant invites him to cut in line.
+Finally, determine the position of the aphid in the line.
+```{r}
+queue <- c("sheep", "fox", "owl", "ant")
+queue <- c(queue, "serpent")
+queue <- queue[-c(1)]
+queue <- c("donkey", queue)
+queue <- queue[-c(5)]
+queue <- queue[-c(3)]
+queue <- c(queue[1:2], "aphid", queue[3])
+print(queue)
+```
+The aphid is third in line. 
+
+5. Use R to create a vector of all of the integers from 1 to 100 that are not divisible by 2, 3, or 7.
+```{r}
+vector <- 1:100
+vector <- which((vector %% 2) != 0 & (vector %% 3) != 0 & (vector %% 7 != 0))
+print(vector)
+```
+
