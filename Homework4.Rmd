@@ -57,11 +57,17 @@ the aphid arrives and the ant invites him to cut in line.
 Finally, determine the position of the aphid in the line.
 ```{r}
 queue <- c("sheep", "fox", "owl", "ant")
+print(queue)
 queue <- c(queue, "serpent")
+print(queue)
 queue <- queue[-c(1)]
+print(queue)
 queue <- c("donkey", queue)
+print(queue)
 queue <- queue[-c(5)]
+print(queue)
 queue <- queue[-c(3)]
+print(queue)
 queue <- c(queue[1:2], "aphid", queue[3])
 print(queue)
 ```

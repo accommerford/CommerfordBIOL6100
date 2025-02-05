@@ -313,13 +313,13 @@ functions (<code>asin()</code>, <code>acos()</code>, or
 </ol>
 <pre class="r"><code>point &lt;- runif(2)
 print(point)</code></pre>
-<pre><code>## [1] 0.1913358 0.2270387</code></pre>
+<pre><code>## [1] 0.2994392 0.3825134</code></pre>
 <pre class="r"><code>r &lt;- (point[1]^2 + point[2]^2)^(1/2)
 print(r)</code></pre>
-<pre><code>## [1] 0.2969107</code></pre>
+<pre><code>## [1] 0.4857781</code></pre>
 <pre class="r"><code>theta &lt;- atan(point[2]/point[1])
 print(theta)</code></pre>
-<pre><code>## [1] 0.870529</code></pre>
+<pre><code>## [1] 0.906619</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Create a vector
 <code>queue &lt;- c("sheep", "fox", "owl", "ant")</code> where
@@ -332,12 +332,24 @@ gets bored and leaves; the aphid arrives and the ant invites him to cut
 in line. Finally, determine the position of the aphid in the line.</li>
 </ol>
 <pre class="r"><code>queue &lt;- c(&quot;sheep&quot;, &quot;fox&quot;, &quot;owl&quot;, &quot;ant&quot;)
-queue &lt;- c(queue, &quot;serpent&quot;)
-queue &lt;- queue[-c(1)]
-queue &lt;- c(&quot;donkey&quot;, queue)
-queue &lt;- queue[-c(5)]
-queue &lt;- queue[-c(3)]
-queue &lt;- c(queue[1:2], &quot;aphid&quot;, queue[3])
+print(queue)</code></pre>
+<pre><code>## [1] &quot;sheep&quot; &quot;fox&quot;   &quot;owl&quot;   &quot;ant&quot;</code></pre>
+<pre class="r"><code>queue &lt;- c(queue, &quot;serpent&quot;)
+print(queue)</code></pre>
+<pre><code>## [1] &quot;sheep&quot;   &quot;fox&quot;     &quot;owl&quot;     &quot;ant&quot;     &quot;serpent&quot;</code></pre>
+<pre class="r"><code>queue &lt;- queue[-c(1)]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;fox&quot;     &quot;owl&quot;     &quot;ant&quot;     &quot;serpent&quot;</code></pre>
+<pre class="r"><code>queue &lt;- c(&quot;donkey&quot;, queue)
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot;  &quot;fox&quot;     &quot;owl&quot;     &quot;ant&quot;     &quot;serpent&quot;</code></pre>
+<pre class="r"><code>queue &lt;- queue[-c(5)]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;owl&quot;    &quot;ant&quot;</code></pre>
+<pre class="r"><code>queue &lt;- queue[-c(3)]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;ant&quot;</code></pre>
+<pre class="r"><code>queue &lt;- c(queue[1:2], &quot;aphid&quot;, queue[3])
 print(queue)</code></pre>
 <pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;aphid&quot;  &quot;ant&quot;</code></pre>
 <p>The aphid is third in line.</p>
