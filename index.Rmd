@@ -2,8 +2,6 @@
 title: "My Website"
 ---
 
-Hello, Website!
+Welcome to my website! 
 
-For more information about simple R Markdown websites, please read the documentation at https://bookdown.org/yihui/rmarkdown/rmarkdown-site.html.
-
-Please also note that simple R Markdown sites are _not_ based on **blogdown**. They are probably good for websites with only a few Rmd documents. For larger-scale and more sophisticated websites (such as blogs), you may want to use **blogdown** instead: https://github.com/rstudio/blogdown.
+My name is Audrey. I am currently a senior undergrad student at UVM studying Biological Science. I am a member of the UVM sailing team and spend most of my free time on the lake (when it isn't frozen). After graduation I am hoping to work in clinical research and maybe put some of my skills from this class to use. 

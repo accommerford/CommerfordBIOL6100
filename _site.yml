@@ -8,4 +8,8 @@ navbar:
     - text: "About"
       href: about.html
     - text: "Homework Assignments"
-      href: Homework_Links.html
+      menu:
+        - text: "Homework 3"
+          href: Homework3.html
+        - text: "Homework 4"
+          href: Homework4.html
