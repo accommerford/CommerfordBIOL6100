@@ -361,6 +361,14 @@ Replace:\t0\t</code></pre>
 <p>Then, I selected all non-numeric characters except periods and
 forward slash and then deleted them.</p>
 <pre><code>Find:[^a-zA-Z\d\s:./]</code></pre>
+<p>To correct the extra white spaces in the bee_caste column, I searched
+for male followed by one or more spaces and worker followed by one or
+more spaces, and replaced it with the correct label followed only by a
+tab.</p>
+<pre><code>Find:male\s+
+Replace:male\t
+Find:worker\s+
+Replace:worker\t</code></pre>
 
 
 
