@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Audrey Commerford" />
 
+<meta name="date" content="2025-02-19" />
 
-<title>About This Website</title>
+<title>Homework 6</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -281,12 +283,153 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">About This Website</h1>
+<h1 class="title toc-ignore">Homework 6</h1>
+<h4 class="author">Audrey Commerford</h4>
+<h4 class="date">2025-02-19</h4>
 
 </div>
 
 
-<p>More about this website.</p>
+<ol style="list-style-type: decimal">
+<li>Think about an ongoing study in your lab (or a paper you have read
+in a different class), and decide on a pattern that you might expect in
+your experiment if a specific hypothesis were true.</li>
+</ol>
+<p>I recently found myself in a conversation about fluoridated water as
+a public health intervention. I am basing this model vaguely off of <a
+href="https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12685#cdoe12685-bib-0010">this
+study</a> done in Canada following the cessation of community water
+fluoridation in certain areas. The authors note that population exposure
+to fluoridation has decreased from 43% in 2007 to 39% in 2017. The
+expected pattern is that the prevalence of dental caries across a
+country will increase as population fluoride exposure decreases.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>To start simply, assume that the data in each of your treatment
+groups follow a normal distribution. Specify the sample sizes, means,
+and variances for each group that would be reasonable if your hypothesis
+were true. You may need to consult some previous literature and/or an
+expert in the field to come up with these numbers.</li>
+</ol>
+<pre class="r"><code># the explanatory variable is the percentage of population exposed to fluoridated water in a given region
+exposure &lt;- rnorm(50, mean=41, sd=10)
+hist(exposure)</code></pre>
+<p><img src="Homework6_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code># the response variable is the prevalence of dental caries in the population
+dental_caries &lt;- rnorm(50, mean=3.1, sd=0.2)
+hist(dental_caries)</code></pre>
+<p><img src="Homework6_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Using the methods we have covered in class, write code to create a
+random data set that has these attributes. Organize these data into a
+data frame with the appropriate structure.</li>
+</ol>
+<pre class="r"><code># creating the data frame
+data_frame &lt;- data.frame(exposure, dental_caries)
+print(data_frame)</code></pre>
+<pre><code>##    exposure dental_caries
+## 1  26.01894      3.052291
+## 2  47.09021      2.834683
+## 3  20.73560      2.939585
+## 4  46.26476      3.134138
+## 5  58.51383      3.037713
+## 6  37.19642      3.026946
+## 7  52.08983      2.868215
+## 8  28.02055      2.901228
+## 9  29.71339      2.449880
+## 10 46.47518      3.365115
+## 11 37.63909      3.341386
+## 12 45.33728      2.964215
+## 13 42.62504      3.257926
+## 14 29.64187      2.751592
+## 15 45.01783      2.861779
+## 16 40.70496      3.449918
+## 17 27.84393      3.393345
+## 18 40.36000      2.929680
+## 19 45.01799      3.227826
+## 20 35.95277      3.367146
+## 21 27.00231      3.014614
+## 22 36.58198      3.328765
+## 23 49.95248      3.287168
+## 24 34.93979      3.362706
+## 25 49.30283      3.350443
+## 26 41.73454      2.749969
+## 27 46.62243      2.979234
+## 28 41.89042      2.873564
+## 29 46.50313      3.042124
+## 30 29.12896      3.065313
+## 31 47.74476      3.059579
+## 32 33.63979      2.893812
+## 33 44.35807      2.898658
+## 34 39.57196      2.771045
+## 35 52.62789      3.335463
+## 36 34.89594      2.933149
+## 37 18.79001      3.425964
+## 38 41.93832      3.193640
+## 39 59.73475      3.114640
+## 40 71.07285      3.056591
+## 41 40.36171      2.961166
+## 42 37.16944      3.150434
+## 43 42.86738      3.575125
+## 44 47.32803      2.962281
+## 45 49.62918      2.980667
+## 46 48.44888      3.096415
+## 47 49.06057      3.305472
+## 48 40.66272      2.968755
+## 49 39.54964      2.759093
+## 50 53.52697      3.466569</code></pre>
+<pre class="r"><code># fitting the variables to a linear model
+model &lt;- lm(dental_caries~exposure)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Now write code to analyze the data (probably as an ANOVA or
+regression analysis, but possibly as a logistic regression or
+contingency table analysis. Write code to generate a useful graph of the
+data.</li>
+</ol>
+<pre class="r"><code># using anova to test for significance
+anova(model)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: dental_caries
+##           Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+## exposure   1 0.02818 0.028181  0.5086 0.4792
+## Residuals 48 2.65962 0.055409</code></pre>
+<pre class="r"><code># and qplot to plot the results
+library(ggplot2)
+qplot(x=exposure, y=dental_caries)</code></pre>
+<pre><code>## Warning: `qplot()` was deprecated in ggplot2 3.4.0.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this
+## warning was generated.</code></pre>
+<p><img src="Homework6_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li><p>Try running your analysis multiple times to get a feeling for how
+variable the results are with the same parameters, but different sets of
+random numbers.</p></li>
+<li><p>Now, using a series of for loops, adjust the parameters of your
+data to explore how they might impact your results/analysis, and store
+the results of your for loops into an object so you can view it. For
+example, what happens if you were to start with a small sample size and
+then re-run your analysis? Would you still get a significant result?
+What if you were to increase that sample size by 5, or 10? How small can
+your sample size be before you detect a significant pattern (p &lt;
+0.05)? How small can the differences between the groups be (the “effect
+size”) for you to still detect a significant pattern?</p></li>
+<li><p>Alternatively, for the effect sizes you originally hypothesized,
+what is the minimum sample size you would need in order to detect a
+statistically significant effect? Again, run the model a few times with
+the same parameter set to get a feeling for the effect of random
+variation in the data.</p></li>
+<li><p>Write up your results in a markdown file, organized with headers
+and different code chunks to show your analysis. Be explicit in your
+explanation and justification for sample sizes, means, and
+variances.</p></li>
+<li><p>If you have time, try repeating this exercise with one of the
+more sophisticated distributions, such as the gamma or negative binomial
+(depending on the kind of data you have). You will have to spend some
+time figuring out by trial and error the parameter values you will need
+to generate appropriate means and variances of the different
+groups.</p></li>
+</ol>
 
 
 
