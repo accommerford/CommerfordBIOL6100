@@ -60,3 +60,5 @@ qplot(x=exposure, y=dental_caries)
 
 
 9. If you have time, try repeating this exercise with one of the more sophisticated distributions, such as the gamma or negative binomial (depending on the kind of data you have). You will have to spend some time figuring out by trial and error the parameter values you will need to generate appropriate means and variances of the different groups.
+
+edit 
