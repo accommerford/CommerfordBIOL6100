@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 1. Think about an ongoing study in your lab (or a paper you have read in a different class), and decide on a pattern that you might expect in your experiment if a specific hypothesis were true.
 
-I recently found myself in a conversation about fluoridated water as a public health intervention. I am basing this model vaguely off of [this study](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12685#cdoe12685-bib-0010) done in Canada following the cessation of community water fluoridation in certain areas. The authors note that population exposure to fluoridation has decreased from 43% in 2007 to 39% in 2017. The expected pattern is that the prevalence of dental caries across a country will increase as population fluoride exposure decreases. 
+I was recently reading about fluoridated water as a public health intervention. I am basing this model vaguely off of [this study](https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12685#cdoe12685-bib-0010) done in Canada following the cessation of community water fluoridation in certain areas. The authors note that population exposure to fluoridation has decreased from 43% in 2007 to 39% in 2017. The expected pattern is that the prevalence of dental caries across a country will increase as population fluoride exposure decreases. 
 
 2. To start simply, assume that the data in each of your treatment groups follow a normal distribution. Specify the sample sizes, means, and variances for each group that would be reasonable if your hypothesis were true. You may need to consult some previous literature and/or an expert in the field to come up with these numbers.
 
@@ -50,6 +50,38 @@ qplot(x=exposure, y=dental_caries)
 
 6. Now, using a series of for loops, adjust the parameters of your data to explore how they might impact your results/analysis, and store the results of your for loops into an object so you can view it. For example, what happens if you were to start with a small sample size and then re-run your analysis? Would you still get a significant result? What if you were to increase that sample size by 5, or 10? How small can your sample size be before you detect a significant pattern (p < 0.05)? How small can the differences between the groups be (the “effect size”) for you to still detect a significant pattern?
 
+```{r}
+# using a for loop to test different sample sizes
+sample_sizes <- seq(10, 100, by = 10)
+n_iter <- length(sample_sizes)
+
+# Pre-allocate a data frame
+results <- data.frame(SampleSize = sample_sizes,
+                      PValue = rep(NA, n_iter),
+                      Significant = rep(NA, n_iter))
+
+# Loop over the sample sizes
+for (i in seq_along(sample_sizes)) {
+  n <- sample_sizes[i]
+  
+  # Generate random data
+  exposure <- rnorm(n, mean = 41, sd = 10)
+  dental_caries <- rnorm(n, mean = 3.1, sd = 0.2)
+  
+  # Fit the linear model and extract p-value from ANOVA
+  model <- lm(dental_caries ~ exposure)
+  p_value <- anova(model)$`Pr(>F)`[1]
+  
+  # Store the results in the pre-allocated data frame
+  results$PValue[i] <- p_value
+  results$Significant[i] <- p_value < 0.05
+}
+
+# View the results
+print(results)
+
+
+```
 
 7. Alternatively, for the effect sizes you originally hypothesized, what is the minimum sample size you would need in order to detect a statistically significant effect? Again, run the model a few times with the same parameter set to get a feeling for the effect of random variation in the data.
 

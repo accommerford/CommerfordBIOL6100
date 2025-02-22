@@ -267,7 +267,7 @@ $(document).ready(function () {
       <a href="Homework5.html">Homework 5</a>
     </li>
     <li>
-      <a href="Homework6.html">Homework 6</a>
+      <a href="Homework6.5.html">Homework 6</a>
     </li>
   </ul>
 </li>
@@ -295,8 +295,8 @@ $(document).ready(function () {
 in a different class), and decide on a pattern that you might expect in
 your experiment if a specific hypothesis were true.</li>
 </ol>
-<p>I recently found myself in a conversation about fluoridated water as
-a public health intervention. I am basing this model vaguely off of <a
+<p>I was recently reading about fluoridated water as a public health
+intervention. I am basing this model vaguely off of <a
 href="https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12685#cdoe12685-bib-0010">this
 study</a> done in Canada following the cessation of community water
 fluoridation in certain areas. The authors note that population exposure
@@ -327,56 +327,56 @@ data frame with the appropriate structure.</li>
 data_frame &lt;- data.frame(exposure, dental_caries)
 print(data_frame)</code></pre>
 <pre><code>##    exposure dental_caries
-## 1  26.01894      3.052291
-## 2  47.09021      2.834683
-## 3  20.73560      2.939585
-## 4  46.26476      3.134138
-## 5  58.51383      3.037713
-## 6  37.19642      3.026946
-## 7  52.08983      2.868215
-## 8  28.02055      2.901228
-## 9  29.71339      2.449880
-## 10 46.47518      3.365115
-## 11 37.63909      3.341386
-## 12 45.33728      2.964215
-## 13 42.62504      3.257926
-## 14 29.64187      2.751592
-## 15 45.01783      2.861779
-## 16 40.70496      3.449918
-## 17 27.84393      3.393345
-## 18 40.36000      2.929680
-## 19 45.01799      3.227826
-## 20 35.95277      3.367146
-## 21 27.00231      3.014614
-## 22 36.58198      3.328765
-## 23 49.95248      3.287168
-## 24 34.93979      3.362706
-## 25 49.30283      3.350443
-## 26 41.73454      2.749969
-## 27 46.62243      2.979234
-## 28 41.89042      2.873564
-## 29 46.50313      3.042124
-## 30 29.12896      3.065313
-## 31 47.74476      3.059579
-## 32 33.63979      2.893812
-## 33 44.35807      2.898658
-## 34 39.57196      2.771045
-## 35 52.62789      3.335463
-## 36 34.89594      2.933149
-## 37 18.79001      3.425964
-## 38 41.93832      3.193640
-## 39 59.73475      3.114640
-## 40 71.07285      3.056591
-## 41 40.36171      2.961166
-## 42 37.16944      3.150434
-## 43 42.86738      3.575125
-## 44 47.32803      2.962281
-## 45 49.62918      2.980667
-## 46 48.44888      3.096415
-## 47 49.06057      3.305472
-## 48 40.66272      2.968755
-## 49 39.54964      2.759093
-## 50 53.52697      3.466569</code></pre>
+## 1  47.63958      3.075797
+## 2  43.09335      2.779293
+## 3  44.90816      3.237654
+## 4  61.38719      2.660368
+## 5  38.31644      3.124995
+## 6  55.95170      3.179434
+## 7  37.71194      2.602194
+## 8  34.38948      3.404699
+## 9  44.37878      3.020200
+## 10 36.28551      3.146728
+## 11 31.19116      3.335912
+## 12 35.31582      2.897882
+## 13 47.16201      3.291979
+## 14 55.03557      3.036005
+## 15 29.79524      2.827488
+## 16 31.87530      3.191886
+## 17 50.34780      2.953948
+## 18 35.87763      3.205512
+## 19 38.19264      3.219929
+## 20 51.89757      3.094999
+## 21 49.11570      3.260117
+## 22 50.66690      3.383905
+## 23 48.84749      2.931882
+## 24 49.91910      3.539335
+## 25 48.91034      3.246603
+## 26 30.26445      2.631631
+## 27 51.26728      2.953373
+## 28 50.54595      3.357395
+## 29 36.49957      3.058791
+## 30 47.82880      2.734563
+## 31 38.28618      2.742563
+## 32 32.19878      3.021601
+## 33 43.85024      3.074821
+## 34 47.03606      3.099272
+## 35 28.53802      3.080296
+## 36 39.93842      3.223547
+## 37 30.27417      3.212660
+## 38 23.70443      2.929037
+## 39 33.67190      3.432694
+## 40 46.94189      3.164372
+## 41 35.06168      3.270472
+## 42 44.64480      3.130571
+## 43 34.33820      3.422352
+## 44 33.08814      3.375050
+## 45 45.16736      3.329588
+## 46 42.43777      3.016806
+## 47 26.07810      3.252627
+## 48 41.17291      3.175863
+## 49 53.17650      3.319065
+## 50 48.63740      2.916578</code></pre>
 <pre class="r"><code># fitting the variables to a linear model
 model &lt;- lm(dental_caries~exposure)</code></pre>
 <ol start="4" style="list-style-type: decimal">
@@ -390,9 +390,9 @@ anova(model)</code></pre>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: dental_caries
-##           Df  Sum Sq  Mean Sq F value Pr(&gt;F)
-## exposure   1 0.02818 0.028181  0.5086 0.4792
-## Residuals 48 2.65962 0.055409</code></pre>
+##           Df Sum Sq  Mean Sq F value Pr(&gt;F)
+## exposure   1 0.0022 0.002204  0.0439 0.8349
+## Residuals 48 2.4082 0.050171</code></pre>
 <pre class="r"><code># and qplot to plot the results
 library(ggplot2)
 qplot(x=exposure, y=dental_caries)</code></pre>
@@ -414,6 +414,47 @@ What if you were to increase that sample size by 5, or 10? How small can
 your sample size be before you detect a significant pattern (p &lt;
 0.05)? How small can the differences between the groups be (the “effect
 size”) for you to still detect a significant pattern?</p></li>
+</ol>
+<pre class="r"><code># using a for loop to test different sample sizes
+sample_sizes &lt;- seq(10, 100, by = 10)
+n_iter &lt;- length(sample_sizes)
+
+# Pre-allocate a data frame
+results &lt;- data.frame(SampleSize = sample_sizes,
+                      PValue = rep(NA, n_iter),
+                      Significant = rep(NA, n_iter))
+
+# Loop over the sample sizes
+for (i in seq_along(sample_sizes)) {
+  n &lt;- sample_sizes[i]
+  
+  # Generate random data
+  exposure &lt;- rnorm(n, mean = 41, sd = 10)
+  dental_caries &lt;- rnorm(n, mean = 3.1, sd = 0.2)
+  
+  # Fit the linear model and extract p-value from ANOVA
+  model &lt;- lm(dental_caries ~ exposure)
+  p_value &lt;- anova(model)$`Pr(&gt;F)`[1]
+  
+  # Store the results in the pre-allocated data frame
+  results$PValue[i] &lt;- p_value
+  results$Significant[i] &lt;- p_value &lt; 0.05
+}
+
+# View the results
+print(results)</code></pre>
+<pre><code>##    SampleSize     PValue Significant
+## 1          10 0.34803088       FALSE
+## 2          20 0.81535930       FALSE
+## 3          30 0.91150808       FALSE
+## 4          40 0.69429492       FALSE
+## 5          50 0.37508751       FALSE
+## 6          60 0.87354307       FALSE
+## 7          70 0.99653179       FALSE
+## 8          80 0.68737469       FALSE
+## 9          90 0.06953553       FALSE
+## 10        100 0.28627394       FALSE</code></pre>
+<ol start="7" style="list-style-type: decimal">
 <li><p>Alternatively, for the effect sizes you originally hypothesized,
 what is the minimum sample size you would need in order to detect a
 statistically significant effect? Again, run the model a few times with
@@ -430,6 +471,7 @@ time figuring out by trial and error the parameter values you will need
 to generate appropriate means and variances of the different
 groups.</p></li>
 </ol>
+<p>edit</p>
 
 
 

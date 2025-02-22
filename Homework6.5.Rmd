@@ -1,0 +1,84 @@
+---
+title: "Homework 6"
+author: "Audrey Commerford"
+date: "2025-02-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Creating Fake Data Sets To Explore Hypotheses
+1. Think about an ongoing study in your lab (or a paper you have read in a different class), and decide on a pattern that you might expect in your experiment if a specific hypothesis were true.
+
+I recently read a [new review](https://jamanetwork.com/journals/jama/article-abstract/2827212) of the decrease in cervical cancer following introduction of the HPV vaccine. I am loosely basing my  model off of their findings. However, this model does not account for the difference before and after introduction, so it is really just a model of change over time without accounting for vaccination. 
+
+2. To start simply, assume that the data in each of your treatment groups follow a normal distribution. Specify the sample sizes, means, and variances for each group that would be reasonable if your hypothesis were true. You may need to consult some previous literature and/or an expert in the field to come up with these numbers.
+
+I started by establishing my explanatory and response variables. 
+```{r}
+# establish explanatory variable: years before and after the introduction of the HPV vaccine
+year <- 1992:2021
+
+# establish response variable: number of cervical cancer deaths
+deaths <- rnorm(30, mean=39, sd=15)
+```
+3.  the methods we have covered in class, write code to create a random data set that has these attributes. Organize these data into a data frame with the appropriate structure.
+
+In this case, the sample size of the study is the number of cervical cancer deaths. To adjust this number of observations while still matching them to years, I used sampling with replacement. 
+```{r}
+# create a data frame in which sample size can be adjusted 
+data_frame <- data.frame(year = sample(
+  year, size = 400, replace = TRUE),
+  deaths = rnorm(400, mean = 39, sd = 15)
+)
+
+str(data_frame)
+```
+4. Now write code to analyze the data (probably as an ANOVA or regression analysis, but possibly as a logistic regression or contingency table analysis. Write code to generate a useful graph of the data.
+5. Try running your analysis multiple times to get a feeling for how variable the results are with the same parameters, but different sets of random numbers.
+
+To analyze this data, I used a linear model. 
+
+```{r}
+# fitting a linear model
+model <- lm(deaths~year, data=data_frame)
+summary(model)
+
+```
+
+6. Now, using a series of for loops, adjust the parameters of your data to explore how they might impact your results/analysis, and store the results of your for loops into an object so you can view it. For example, what happens if you were to start with a small sample size and then re-run your analysis? Would you still get a significant result? What if you were to increase that sample size by 5, or 10? How small can your sample size be before you detect a significant pattern (p < 0.05)? How small can the differences between the groups be (the “effect size”) for you to still detect a significant pattern?
+
+I started by using a for loop to test different sample size, which in the context of this study would represent total number of deaths that occurred over the study period. I used sampling with replacement to adjust the sample size. I kept the number of deaths as a set of random normal values using the study to determine the mean and standard deviation. I then stored the p-value for each sample size. 
+```{r}
+# establish sample size variable 
+sample_sizes <- seq(20, 400, by = 20)
+length <- length(sample_sizes)
+
+# create a data frame to store results
+results <- data.frame(sample_size = sample_sizes, p_value = rep(NA, length))
+
+# create the loop
+for (i in seq_along(sample_sizes)) {
+  n <- sample_sizes[i]
+  df <- data.frame(
+    year = sample(year, size = n, replace = TRUE)
+  )
+  df$deaths <- rnorm(n, mean = 39, sd = 15)
+    model <- lm(deaths ~ year, data = df)
+  p_val <- summary(model)$coefficients["year", "Pr(>|t|)"]
+  results$p_value[i] <- p_val
+}
+
+# View the results
+print(results)
+```
+
+Since this uses a linear model, I altered the slope to test different effect sizes. 
+
+7. Alternatively, for the effect sizes you originally hypothesized, what is the minimum sample size you would need in order to detect a statistically significant effect? Again, run the model a few times with the same parameter set to get a feeling for the effect of random variation in the data.
+
+8. Write up your results in a markdown file, organized with headers and different code chunks to show your analysis. Be explicit in your explanation and justification for sample sizes, means, and variances.
+
+9. If you have time, try repeating this exercise with one of the more sophisticated distributions, such as the gamma or negative binomial (depending on the kind of data you have). You will have to spend some time figuring out by trial and error the parameter values you will need to generate appropriate means and variances of the different groups.
