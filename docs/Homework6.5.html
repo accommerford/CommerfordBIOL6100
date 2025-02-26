@@ -269,6 +269,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework6.5.html">Homework 6</a>
     </li>
+    <li>
+      <a href="Homework7.html">Homework 7</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -323,19 +326,28 @@ deaths &lt;- rnorm(30, mean=39, sd=15)</code></pre>
 data set that has these attributes. Organize these data into a data
 frame with the appropriate structure.</li>
 </ol>
-<p>In this case, the sample size of the study is the number of cervical
-cancer deaths. To adjust this number of observations while still
-matching them to years, I used sampling with replacement.</p>
-<pre class="r"><code># create a data frame in which sample size can be adjusted 
-data_frame &lt;- data.frame(year = sample(
-  year, size = 400, replace = TRUE),
-  deaths = rnorm(400, mean = 39, sd = 15)
-)
-
+<p>I first created a simple model of years vs cervical cancer
+deaths.</p>
+<pre class="r"><code>data_frame &lt;- data.frame(year, deaths)
 str(data_frame)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    400 obs. of  2 variables:
-##  $ year  : int  1995 1995 1996 2015 2009 2014 2009 2013 2000 2002 ...
-##  $ deaths: num  43 45.1 23.3 24.7 45.5 ...</code></pre>
+<pre><code>## &#39;data.frame&#39;:    30 obs. of  2 variables:
+##  $ year  : int  1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 ...
+##  $ deaths: num  27.2 53.5 26.6 61.6 27.3 ...</code></pre>
+<p>In this case, the sample size of the study is the number of cervical
+cancer deaths. To be able to adjust this number of observations later, I
+created a variable for total deaths and used random sampling to assign
+different numbers of deaths to different years.</p>
+<pre class="r"><code># establish sample size variable that can be altered
+year &lt;- 1992:2021
+total_deaths &lt;- 400
+mortality &lt;- table(sample(year, size = total_deaths, replace = TRUE))
+
+# create data frame
+data_frame &lt;- data.frame(year = as.numeric(names(mortality)), deaths = as.numeric(mortality))
+str(data_frame)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    30 obs. of  2 variables:
+##  $ year  : num  1992 1993 1994 1995 1996 ...
+##  $ deaths: num  14 11 8 13 16 10 12 8 11 16 ...</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Now write code to analyze the data (probably as an ANOVA or
 regression analysis, but possibly as a logistic regression or
@@ -345,26 +357,33 @@ data.</li>
 variable the results are with the same parameters, but different sets of
 random numbers.</li>
 </ol>
-<p>To analyze this data, I used a linear model.</p>
+<p>To analyze this data, I used a linear model. Since it is randomly
+generated and distributed, there is little to no association between
+year and mortality.</p>
 <pre class="r"><code># fitting a linear model
-model &lt;- lm(deaths~year, data=data_frame)
+model &lt;- lm(mortality~year)
 summary(model)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = deaths ~ year, data = data_frame)
+## lm(formula = mortality ~ year)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -44.470  -9.888   0.558  10.695  42.768 
+## -4.6986 -3.1760 -0.1154  2.4713  6.0320 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept) 119.96852  174.74546   0.687    0.493
-## year         -0.04079    0.08708  -0.468    0.640
+##               Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) -269.67468  137.60282  -1.960   0.0600 .
+## year           0.14105    0.06858   2.057   0.0491 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 15.02 on 398 degrees of freedom
-## Multiple R-squared:  0.0005511,  Adjusted R-squared:  -0.00196 
-## F-statistic: 0.2195 on 1 and 398 DF,  p-value: 0.6397</code></pre>
+## Residual standard error: 3.251 on 28 degrees of freedom
+## Multiple R-squared:  0.1312, Adjusted R-squared:  0.1002 
+## F-statistic:  4.23 on 1 and 28 DF,  p-value: 0.04914</code></pre>
+<pre class="r"><code># visualize dataset 
+plot(year, mortality)</code></pre>
+<p><img src="Homework6.5_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ol start="6" style="list-style-type: decimal">
 <li>Now, using a series of for loops, adjust the parameters of your data
 to explore how they might impact your results/analysis, and store the
@@ -376,72 +395,131 @@ your sample size be before you detect a significant pattern (p &lt;
 0.05)? How small can the differences between the groups be (the “effect
 size”) for you to still detect a significant pattern?</li>
 </ol>
+<p>To test different effect sizes for this model, I created an effect
+size variable to alter the slopes for each year while keeping sample
+size constant. This variable is negative to show the decrease in deaths
+over time.</p>
+<pre class="r"><code># establish sample size (constant) and different effect sizes to test
+sample_size &lt;- 400
+effect_sizes &lt;- seq(-1, 0, by=0.1)
+length2 &lt;- length(effect_sizes)
+
+# create a data frame for results
+results_effect &lt;- data.frame(effect_size=effect_sizes, p_value=rep(NA, length2))
+
+# create the loop
+for (i in seq_along(effect_sizes)) {
+  eff &lt;- effect_sizes[i]
+    df &lt;- data.frame(
+    year = sample(year-min(year), size = sample_size, replace = TRUE)
+  )
+  df$deaths &lt;- 39 + eff * df$year + rnorm(sample_size, mean = 0, sd = 15) # set up the response variable(number of deaths) using effect size multiplied by the year to produce a trend over time
+  model &lt;- lm(deaths~year, data=df) # fit the linear model
+  p_val &lt;- summary(model)$coefficients[&quot;year&quot;, &quot;Pr(&gt;|t|)&quot;] # store the p value
+    results_effect$p_value[i] &lt;- p_val
+}
+
+print(results_effect)</code></pre>
+<pre><code>##    effect_size      p_value
+## 1         -1.0 2.891827e-29
+## 2         -0.9 6.279948e-20
+## 3         -0.8 1.681768e-18
+## 4         -0.7 2.879308e-13
+## 5         -0.6 5.746118e-13
+## 6         -0.5 1.042872e-07
+## 7         -0.4 5.535086e-08
+## 8         -0.3 1.373309e-04
+## 9         -0.2 2.019254e-03
+## 10        -0.1 1.743048e-01
+## 11         0.0 5.991750e-01</code></pre>
+<p>This model illustrates that the correlation generally becomes
+stronger as the effect size increases in magnitude.</p>
 <p>I started by using a for loop to test different sample size, which in
 the context of this study would represent total number of deaths that
-occurred over the study period. I used sampling with replacement to
-adjust the sample size. I kept the number of deaths as a set of random
-normal values using the study to determine the mean and standard
-deviation. I then stored the p-value for each sample size.</p>
-<pre class="r"><code># establish sample size variable 
+occurred over the study period. I stored the p-value for each sample
+size. Since the data is randomly generated, there is still no apparent
+trend.</p>
+<pre><code># establish sample sizes to test
 sample_sizes &lt;- seq(20, 400, by = 20)
 length &lt;- length(sample_sizes)
+time &lt;- length(year)
 
 # create a data frame to store results
-results &lt;- data.frame(sample_size = sample_sizes, p_value = rep(NA, length))
+results &lt;- data.frame(sample_sizes, p_value = rep(NA, length))
 
 # create the loop
 for (i in seq_along(sample_sizes)) {
-  n &lt;- sample_sizes[i]
-  df &lt;- data.frame(
-    year = sample(year, size = n, replace = TRUE)
-  )
-  df$deaths &lt;- rnorm(n, mean = 39, sd = 15)
-    model &lt;- lm(deaths ~ year, data = df)
-  p_val &lt;- summary(model)$coefficients[&quot;year&quot;, &quot;Pr(&gt;|t|)&quot;]
-  results$p_value[i] &lt;- p_val
+  mortality &lt;- table(sample(year, size=sample_sizes, replace=TRUE))
+  df &lt;- data.frame(year=as.numeric(names(mortality)), deaths = as.numeric(mortality))
+  model &lt;- lm(deaths~year, data=df)
+  p_value &lt;- summary(model)$coefficients[&quot;year&quot;, &quot;Pr(&gt;|t|)&quot;]
+  results$p_value[i] &lt;- p_value
 }
 
-# View the results
 print(results)</code></pre>
-<pre><code>##    sample_size    p_value
-## 1           20 0.01637921
-## 2           40 0.18514599
-## 3           60 0.80685160
-## 4           80 0.63336569
-## 5          100 0.83368094
-## 6          120 0.31730895
-## 7          140 0.66266991
-## 8          160 0.23008382
-## 9          180 0.78618745
-## 10         200 0.33246889
-## 11         220 0.85975724
-## 12         240 0.85762065
-## 13         260 0.71454565
-## 14         280 0.41265838
-## 15         300 0.38886585
-## 16         320 0.88721677
-## 17         340 0.85316579
-## 18         360 0.92105961
-## 19         380 0.29715771
-## 20         400 0.80689373</code></pre>
-<p>Since this uses a linear model, I altered the slope to test different
-effect sizes.</p>
 <ol start="7" style="list-style-type: decimal">
-<li><p>Alternatively, for the effect sizes you originally hypothesized,
+<li>Alternatively, for the effect sizes you originally hypothesized,
 what is the minimum sample size you would need in order to detect a
 statistically significant effect? Again, run the model a few times with
 the same parameter set to get a feeling for the effect of random
-variation in the data.</p></li>
-<li><p>Write up your results in a markdown file, organized with headers
-and different code chunks to show your analysis. Be explicit in your
+variation in the data.</li>
+</ol>
+<p>To determine the minimum sample size needed to detect a statistically
+significant effect, I am modifying the original linear model to account
+for effect size.</p>
+<pre><code>year &lt;- 1992:2021
+intercept &lt;- 55 # number of deaths in 1992
+effect_size &lt;- -1.4 # decrease in number of deaths per year
+sample_size &lt;- 400 # total number of deaths over study period
+
+mortality &lt;- table(sample(year, size = sample_size, replace = TRUE)) #random assignment of numbers of deaths to study years
+plot(as.numeric(mortality)~year) # little to no association
+mortality_numeric &lt;- as.numeric(mortality)
+
+deaths &lt;- intercept + effect_size * 1:30 * as.numeric(mortality) + # create decreasing trend
+  rnorm(30, mean=0, sd=15) # add noise 
+plot(deaths~year)
+
+model &lt;- lm(deaths~year)
+summary(model)
+
+# use a for loop to determine minimum sample size
+for (i in seq(10, 100, by=5)) {
+  mortality &lt;- table(sample(year, size = i, replace = TRUE))
+  deaths &lt;- intercept + effect_size * mortality_numeric * 1:30 + # create decreasing trend
+  rnorm(30, mean=0, sd=15)
+  model &lt;- lm(deaths~year)
+  p_value &lt;- summary(model)$coefficients[2, 4]
+  cat(&quot;Sample size:&quot;, i, &quot;- p-value:&quot;, p_value, &quot;\n&quot;)}
+}
+
+for (i in seq(10, 100, by=5)) {
+  mortality &lt;- table(sample(year, size = i, replace = TRUE))
+  deaths &lt;- mortality_numeric + effect_size * 1:30 + # create decreasing trend
+  rnorm(30, mean=0, sd=15)
+  model &lt;- lm(deaths~year)
+  p_value &lt;- summary(model)$coefficients[2, 4]
+  cat(&quot;Sample size:&quot;, i, &quot;- p-value:&quot;, p_value, &quot;\n&quot;)}
+}</code></pre>
+<p>This produces a statistically significant downward trend in cervical
+cancer deaths over time, as demonstrated in the study.</p>
+<p>To determine the minimum sample size needed to see a significant
+effect, I used another for loop.</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Write up your results in a markdown file, organized with headers and
+different code chunks to show your analysis. Be explicit in your
 explanation and justification for sample sizes, means, and
-variances.</p></li>
-<li><p>If you have time, try repeating this exercise with one of the
-more sophisticated distributions, such as the gamma or negative binomial
+variances.</li>
+</ol>
+<p>Weaknesses of the model: simulated deaths can decrease below zero
+doesnt actually account for introduction of the HPV vaccine in 2006</p>
+<ol start="9" style="list-style-type: decimal">
+<li>If you have time, try repeating this exercise with one of the more
+sophisticated distributions, such as the gamma or negative binomial
 (depending on the kind of data you have). You will have to spend some
 time figuring out by trial and error the parameter values you will need
 to generate appropriate means and variances of the different
-groups.</p></li>
+groups.</li>
 </ol>
 </div>
 

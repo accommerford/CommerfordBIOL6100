@@ -11,9 +11,9 @@
 
 <meta name="author" content="Audrey Commerford" />
 
-<meta name="date" content="2025-02-19" />
+<meta name="date" content="2025-02-26" />
 
-<title>Homework 6</title>
+<title>Homework 7</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -286,195 +286,164 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Homework 6</h1>
+<h1 class="title toc-ignore">Homework 7</h1>
 <h4 class="author">Audrey Commerford</h4>
-<h4 class="date">2025-02-19</h4>
+<h4 class="date">2025-02-26</h4>
 
 </div>
 
 
+<div id="data-manipulations-using-the-dplyr-package"
+class="section level1">
+<h1>Data manipulations using the dplyr package</h1>
 <ol style="list-style-type: decimal">
-<li>Think about an ongoing study in your lab (or a paper you have read
-in a different class), and decide on a pattern that you might expect in
-your experiment if a specific hypothesis were true.</li>
+<li>Examine the structure of the iris data set. How many observations
+and variables are in the data set?</li>
 </ol>
-<p>I was recently reading about fluoridated water as a public health
-intervention. I am basing this model vaguely off of <a
-href="https://onlinelibrary.wiley.com/doi/full/10.1111/cdoe.12685#cdoe12685-bib-0010">this
-study</a> done in Canada following the cessation of community water
-fluoridation in certain areas. The authors note that population exposure
-to fluoridation has decreased from 43% in 2007 to 39% in 2017. The
-expected pattern is that the prevalence of dental caries across a
-country will increase as population fluoride exposure decreases.</p>
+<pre class="r"><code># load iris data into memory
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.4     ✔ tibble    3.2.1
+## ✔ purrr     1.0.2     ✔ tidyr     1.3.1
+## ── Conflicts ──────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>data(iris)
+glimpse(iris)</code></pre>
+<pre><code>## Rows: 150
+## Columns: 5
+## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.…
+## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.…
+## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.…
+## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.…
+## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, setosa, s…</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li>To start simply, assume that the data in each of your treatment
-groups follow a normal distribution. Specify the sample sizes, means,
-and variances for each group that would be reasonable if your hypothesis
-were true. You may need to consult some previous literature and/or an
-expert in the field to come up with these numbers.</li>
+<li>Create a new data frame iris1 that contains only the species
+virginica and versicolor with sepal lengths longer than 6 cm and sepal
+widths longer than 2.5 cm. How many observations and variables are in
+the data set?</li>
 </ol>
-<pre class="r"><code># the explanatory variable is the percentage of population exposed to fluoridated water in a given region
-exposure &lt;- rnorm(50, mean=41, sd=10)
-hist(exposure)</code></pre>
-<p><img src="Homework6_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code># the response variable is the prevalence of dental caries in the population
-dental_caries &lt;- rnorm(50, mean=3.1, sd=0.2)
-hist(dental_caries)</code></pre>
-<p><img src="Homework6_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<pre class="r"><code>iris1 &lt;- filter(iris, Species == c(&quot;virginica&quot;, &quot;versicolor&quot;), Sepal.Length &gt; 6, Sepal.Width &gt; 2.5)
+glimpse(iris1)</code></pre>
+<pre><code>## Rows: 28
+## Columns: 5
+## $ Sepal.Length &lt;dbl&gt; 6.4, 6.1, 6.7, 6.1, 6.1, 6.6, 6.7, 6.1, 6.2, 6.3, 7.1, 6.…
+## $ Sepal.Width  &lt;dbl&gt; 3.2, 2.9, 3.1, 2.8, 2.8, 3.0, 3.0, 3.0, 2.9, 3.3, 3.0, 3.…
+## $ Petal.Length &lt;dbl&gt; 4.5, 4.7, 4.4, 4.0, 4.7, 4.4, 5.0, 4.6, 4.3, 6.0, 5.9, 5.…
+## $ Petal.Width  &lt;dbl&gt; 1.5, 1.4, 1.4, 1.3, 1.2, 1.4, 1.7, 1.4, 1.3, 2.5, 2.1, 2.…
+## $ Species      &lt;fct&gt; versicolor, versicolor, versicolor, versicolor, versicolo…</code></pre>
+<p>The new iris1 object contains 28 observations of 5 variables.</p>
 <ol start="3" style="list-style-type: decimal">
-<li>Using the methods we have covered in class, write code to create a
-random data set that has these attributes. Organize these data into a
-data frame with the appropriate structure.</li>
+<li>Now, create a iris2 data frame from iris1 that contains only the
+columns for Species, Sepal.Length, and Sepal.Width. How many
+observations and variables are in the data set?</li>
 </ol>
-<pre class="r"><code># creating the data frame
-data_frame &lt;- data.frame(exposure, dental_caries)
-print(data_frame)</code></pre>
-<pre><code>##    exposure dental_caries
-## 1  48.57764      2.846700
-## 2  20.24714      2.698865
-## 3  30.78459      3.210361
-## 4  36.40282      3.181021
-## 5  21.45454      2.961406
-## 6  43.66431      2.764414
-## 7  40.63081      3.188898
-## 8  57.03785      3.014830
-## 9  47.98525      3.164397
-## 10 50.37326      3.267362
-## 11 28.56376      2.755866
-## 12 38.92981      3.067299
-## 13 50.77019      3.029265
-## 14 28.45381      3.210650
-## 15 46.43562      3.150123
-## 16 39.54857      3.411476
-## 17 40.00743      2.589118
-## 18 28.93508      3.170828
-## 19 48.52714      2.968759
-## 20 32.71641      3.008058
-## 21 51.13779      2.601286
-## 22 47.27053      3.158823
-## 23 35.72983      3.300565
-## 24 49.04037      2.828567
-## 25 27.57960      2.840815
-## 26 38.25617      2.926718
-## 27 48.93382      3.071117
-## 28 42.07576      2.913897
-## 29 50.40976      3.071164
-## 30 54.58704      3.358170
-## 31 38.75671      2.978307
-## 32 31.48442      3.276355
-## 33 23.01005      3.259215
-## 34 41.78769      2.911507
-## 35 37.20560      3.146492
-## 36 40.24686      2.677273
-## 37 44.51276      3.517632
-## 38 39.02864      3.372207
-## 39 39.88523      3.389256
-## 40 29.20334      3.080692
-## 41 24.76020      3.215840
-## 42 43.24209      3.221232
-## 43 32.40059      2.895976
-## 44 46.97588      3.121280
-## 45 39.09104      3.220004
-## 46 32.50367      2.577261
-## 47 40.65741      3.034043
-## 48 43.21555      3.203433
-## 49 36.26626      2.954667
-## 50 49.38722      3.074232</code></pre>
-<pre class="r"><code># fitting the variables to a linear model
-model &lt;- lm(dental_caries~exposure)</code></pre>
+<pre class="r"><code>iris2 &lt;- select(iris1, Species, Sepal.Length, Sepal.Width)
+glimpse(iris2)</code></pre>
+<pre><code>## Rows: 28
+## Columns: 3
+## $ Species      &lt;fct&gt; versicolor, versicolor, versicolor, versicolor, versicolo…
+## $ Sepal.Length &lt;dbl&gt; 6.4, 6.1, 6.7, 6.1, 6.1, 6.6, 6.7, 6.1, 6.2, 6.3, 7.1, 6.…
+## $ Sepal.Width  &lt;dbl&gt; 3.2, 2.9, 3.1, 2.8, 2.8, 3.0, 3.0, 3.0, 2.9, 3.3, 3.0, 3.…</code></pre>
+<p>Now, iris2 has 28 observations of only 3 variables.</p>
 <ol start="4" style="list-style-type: decimal">
-<li>Now write code to analyze the data (probably as an ANOVA or
-regression analysis, but possibly as a logistic regression or
-contingency table analysis. Write code to generate a useful graph of the
-data.</li>
+<li>Create an iris3 data frame from iris2 that orders the observations
+from largest to smallest sepal length. Show the first 6 rows of this
+data set.</li>
 </ol>
-<pre class="r"><code># using anova to test for significance
-anova(model)</code></pre>
-<pre><code>## Analysis of Variance Table
-## 
-## Response: dental_caries
-##           Df  Sum Sq  Mean Sq F value Pr(&gt;F)
-## exposure   1 0.01047 0.010473  0.2069 0.6513
-## Residuals 48 2.42979 0.050621</code></pre>
-<pre class="r"><code># and qplot to plot the results
-library(ggplot2)
-qplot(x=exposure, y=dental_caries)</code></pre>
-<pre><code>## Warning: `qplot()` was deprecated in ggplot2 3.4.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this
-## warning was generated.</code></pre>
-<p><img src="Homework6_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>iris3 &lt;- arrange(iris2, by = desc(Sepal.Length))
+head(iris3)</code></pre>
+<pre><code>##     Species Sepal.Length Sepal.Width
+## 1 virginica          7.7         2.6
+## 2 virginica          7.7         2.8
+## 3 virginica          7.4         2.8
+## 4 virginica          7.1         3.0
+## 5 virginica          6.9         3.2
+## 6 virginica          6.8         3.0</code></pre>
 <ol start="5" style="list-style-type: decimal">
-<li><p>Try running your analysis multiple times to get a feeling for how
-variable the results are with the same parameters, but different sets of
-random numbers.</p></li>
-<li><p>Now, using a series of for loops, adjust the parameters of your
-data to explore how they might impact your results/analysis, and store
-the results of your for loops into an object so you can view it. For
-example, what happens if you were to start with a small sample size and
-then re-run your analysis? Would you still get a significant result?
-What if you were to increase that sample size by 5, or 10? How small can
-your sample size be before you detect a significant pattern (p &lt;
-0.05)? How small can the differences between the groups be (the “effect
-size”) for you to still detect a significant pattern?</p></li>
+<li>Create an iris4 data frame from iris3 that creates a column with a
+sepal area (length * width) value for each observation. How many
+observations and variables are in the data set?</li>
 </ol>
-<pre class="r"><code># using a for loop to test different sample sizes
-sample_sizes &lt;- seq(10, 100, by = 10)
-n_iter &lt;- length(sample_sizes)
-
-# Pre-allocate a data frame
-results &lt;- data.frame(SampleSize = sample_sizes,
-                      PValue = rep(NA, n_iter),
-                      Significant = rep(NA, n_iter))
-
-# Loop over the sample sizes
-for (i in seq_along(sample_sizes)) {
-  n &lt;- sample_sizes[i]
-  
-  # Generate random data
-  exposure &lt;- rnorm(n, mean = 41, sd = 10)
-  dental_caries &lt;- rnorm(n, mean = 3.1, sd = 0.2)
-  
-  # Fit the linear model and extract p-value from ANOVA
-  model &lt;- lm(dental_caries ~ exposure)
-  p_value &lt;- anova(model)$`Pr(&gt;F)`[1]
-  
-  # Store the results in the pre-allocated data frame
-  results$PValue[i] &lt;- p_value
-  results$Significant[i] &lt;- p_value &lt; 0.05
-}
-
-# View the results
-print(results)</code></pre>
-<pre><code>##    SampleSize      PValue Significant
-## 1          10 0.798967044       FALSE
-## 2          20 0.360101800       FALSE
-## 3          30 0.039419009        TRUE
-## 4          40 0.933988928       FALSE
-## 5          50 0.041115302        TRUE
-## 6          60 0.001754634        TRUE
-## 7          70 0.417169396       FALSE
-## 8          80 0.497754766       FALSE
-## 9          90 0.846602702       FALSE
-## 10        100 0.712078901       FALSE</code></pre>
+<pre class="r"><code>iris4 &lt;- mutate(iris3, Sepal.Area = Sepal.Length*Sepal.Width)
+head(iris4)</code></pre>
+<pre><code>##     Species Sepal.Length Sepal.Width Sepal.Area
+## 1 virginica          7.7         2.6      20.02
+## 2 virginica          7.7         2.8      21.56
+## 3 virginica          7.4         2.8      20.72
+## 4 virginica          7.1         3.0      21.30
+## 5 virginica          6.9         3.2      22.08
+## 6 virginica          6.8         3.0      20.40</code></pre>
+<p>After adding sepal area as a variable, iris4 now has 28 observations
+of 4 variables.</p>
+<ol start="6" style="list-style-type: decimal">
+<li>Create iris5 that calculates the average sepal length, the average
+sepal width, and the sample size of the entire iris4 data frame and
+print iris5.</li>
+</ol>
+<pre class="r"><code>iris5 &lt;- summarize(iris4, Mean.Length = mean(Sepal.Length), Mean.Width = mean(Sepal.Width), Sample.Size = n())
+print(iris5)</code></pre>
+<pre><code>##   Mean.Length Mean.Width Sample.Size
+## 1       6.575   3.003571          28</code></pre>
 <ol start="7" style="list-style-type: decimal">
-<li><p>Alternatively, for the effect sizes you originally hypothesized,
-what is the minimum sample size you would need in order to detect a
-statistically significant effect? Again, run the model a few times with
-the same parameter set to get a feeling for the effect of random
-variation in the data.</p></li>
-<li><p>Write up your results in a markdown file, organized with headers
-and different code chunks to show your analysis. Be explicit in your
-explanation and justification for sample sizes, means, and
-variances.</p></li>
-<li><p>If you have time, try repeating this exercise with one of the
-more sophisticated distributions, such as the gamma or negative binomial
-(depending on the kind of data you have). You will have to spend some
-time figuring out by trial and error the parameter values you will need
-to generate appropriate means and variances of the different
-groups.</p></li>
+<li>Finally, create iris6 that calculates the average sepal length, the
+average sepal width, and the sample size for each species of in the
+iris4 data frame and print iris6.</li>
 </ol>
-<p>edit</p>
+<pre class="r"><code>iris6 &lt;- iris4%&gt;%
+  group_by(Species)%&gt;%
+  summarize(Mean.Length = mean(Sepal.Length), Mean.Width = mean(Sepal.Width), Sample.Size = n())
+print(iris6)</code></pre>
+<pre><code>## # A tibble: 2 × 4
+##   Species    Mean.Length Mean.Width Sample.Size
+##   &lt;fct&gt;            &lt;dbl&gt;      &lt;dbl&gt;       &lt;int&gt;
+## 1 versicolor        6.33       2.97           9
+## 2 virginica         6.69       3.02          19</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>In these exercises, you have successively modified different
+versions of the data frame iris1 iris2 iris3 iris4 iris5 iris6. At each
+stage, the output data frame from one operation serves as the input fro
+the next. A more efficient way to do this is to use the pipe operator
+%&gt;% from the tidyr package. See if you can rework all of your
+previous statements (except for iris5) into an extended piping operation
+that uses iris as the input and generates irisFinal as the output.</li>
+</ol>
+<pre class="r"><code>irisFinal &lt;- iris%&gt;%
+  filter(Species == c(&quot;virginica&quot;, &quot;versicolor&quot;), Sepal.Length &gt; 6, Sepal.Width &gt; 2.5)%&gt;%
+  select(Species, Sepal.Length, Sepal.Width)%&gt;%
+  arrange(by = desc(Sepal.Length))%&gt;%
+  mutate(Sepal.Area = Sepal.Length*Sepal.Width)%&gt;%
+  group_by(Species)%&gt;%
+  summarize(Mean.Length = mean(Sepal.Length), Mean.Width = mean(Sepal.Width), Sample.Size = n())
+print(irisFinal)</code></pre>
+<pre><code>## # A tibble: 2 × 4
+##   Species    Mean.Length Mean.Width Sample.Size
+##   &lt;fct&gt;            &lt;dbl&gt;      &lt;dbl&gt;       &lt;int&gt;
+## 1 versicolor        6.33       2.97           9
+## 2 virginica         6.69       3.02          19</code></pre>
+<ol start="9" style="list-style-type: decimal">
+<li>Create a ‘longer’ data frame using the original iris data set with
+three columns named “Species”, “Measure”, “Value”. The column “Species”
+will retain the species names of the data set. The column “Measure” will
+include whether the value corresponds to Sepal.Length, Sepal.Width,
+Petal.Length, or Petal.Width and the column “Value” will include the
+numerical values of those measurements.</li>
+</ol>
+<pre class="r"><code>irisLong &lt;- pivot_longer(iris, cols = c(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width), names_to = &quot;Measure&quot;, values_to = &quot;Value&quot;)
+head(irisLong)</code></pre>
+<pre><code>## # A tibble: 6 × 3
+##   Species Measure      Value
+##   &lt;fct&gt;   &lt;chr&gt;        &lt;dbl&gt;
+## 1 setosa  Sepal.Length   5.1
+## 2 setosa  Sepal.Width    3.5
+## 3 setosa  Petal.Length   1.4
+## 4 setosa  Petal.Width    0.2
+## 5 setosa  Sepal.Length   4.9
+## 6 setosa  Sepal.Width    3</code></pre>
+</div>
 
 
 

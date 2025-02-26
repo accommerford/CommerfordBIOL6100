@@ -26,59 +26,138 @@ deaths <- rnorm(30, mean=39, sd=15)
 ```
 3.  the methods we have covered in class, write code to create a random data set that has these attributes. Organize these data into a data frame with the appropriate structure.
 
-In this case, the sample size of the study is the number of cervical cancer deaths. To adjust this number of observations while still matching them to years, I used sampling with replacement. 
+I first created a simple model of years vs cervical cancer deaths. 
 ```{r}
-# create a data frame in which sample size can be adjusted 
-data_frame <- data.frame(year = sample(
-  year, size = 400, replace = TRUE),
-  deaths = rnorm(400, mean = 39, sd = 15)
-)
+data_frame <- data.frame(year, deaths)
+str(data_frame)
+```
 
+In this case, the sample size of the study is the number of cervical cancer deaths. To be able to adjust this number of observations later, I created a variable for total deaths and used random sampling to assign different numbers of deaths to different years. 
+```{r}
+# establish sample size variable that can be altered
+year <- 1992:2021
+total_deaths <- 400
+mortality <- table(sample(year, size = total_deaths, replace = TRUE))
+
+# create data frame
+data_frame <- data.frame(year = as.numeric(names(mortality)), deaths = as.numeric(mortality))
 str(data_frame)
 ```
 4. Now write code to analyze the data (probably as an ANOVA or regression analysis, but possibly as a logistic regression or contingency table analysis. Write code to generate a useful graph of the data.
 5. Try running your analysis multiple times to get a feeling for how variable the results are with the same parameters, but different sets of random numbers.
 
-To analyze this data, I used a linear model. 
+To analyze this data, I used a linear model. Since it is randomly generated and distributed, there is little to no association between year and mortality. 
 
 ```{r}
 # fitting a linear model
-model <- lm(deaths~year, data=data_frame)
+model <- lm(mortality~year)
 summary(model)
 
+# visualize dataset 
+plot(year, mortality)
 ```
 
 6. Now, using a series of for loops, adjust the parameters of your data to explore how they might impact your results/analysis, and store the results of your for loops into an object so you can view it. For example, what happens if you were to start with a small sample size and then re-run your analysis? Would you still get a significant result? What if you were to increase that sample size by 5, or 10? How small can your sample size be before you detect a significant pattern (p < 0.05)? How small can the differences between the groups be (the “effect size”) for you to still detect a significant pattern?
 
-I started by using a for loop to test different sample size, which in the context of this study would represent total number of deaths that occurred over the study period. I used sampling with replacement to adjust the sample size. I kept the number of deaths as a set of random normal values using the study to determine the mean and standard deviation. I then stored the p-value for each sample size. 
+To test different effect sizes for this model, I created an effect size variable to alter the slopes for each year while keeping sample size constant. This variable is negative to show the decrease in deaths over time. 
 ```{r}
-# establish sample size variable 
+# establish sample size (constant) and different effect sizes to test
+sample_size <- 400
+effect_sizes <- seq(-1, 0, by=0.1)
+length2 <- length(effect_sizes)
+
+# create a data frame for results
+results_effect <- data.frame(effect_size=effect_sizes, p_value=rep(NA, length2))
+
+# create the loop
+for (i in seq_along(effect_sizes)) {
+  eff <- effect_sizes[i]
+    df <- data.frame(
+    year = sample(year-min(year), size = sample_size, replace = TRUE)
+  )
+  df$deaths <- 39 + eff * df$year + rnorm(sample_size, mean = 0, sd = 15) # set up the response variable(number of deaths) using effect size multiplied by the year to produce a trend over time
+  model <- lm(deaths~year, data=df) # fit the linear model
+  p_val <- summary(model)$coefficients["year", "Pr(>|t|)"] # store the p value
+    results_effect$p_value[i] <- p_val
+}
+
+print(results_effect)
+```
+
+This model illustrates that the correlation generally becomes stronger as the effect size increases in magnitude.
+
+I started by using a for loop to test different sample size, which in the context of this study would represent total number of deaths that occurred over the study period. I stored the p-value for each sample size. Since the data is randomly generated, there is still no apparent trend. 
+
+```
+# establish sample sizes to test
 sample_sizes <- seq(20, 400, by = 20)
 length <- length(sample_sizes)
+time <- length(year)
 
 # create a data frame to store results
-results <- data.frame(sample_size = sample_sizes, p_value = rep(NA, length))
+results <- data.frame(sample_sizes, p_value = rep(NA, length))
 
 # create the loop
 for (i in seq_along(sample_sizes)) {
-  n <- sample_sizes[i]
-  df <- data.frame(
-    year = sample(year, size = n, replace = TRUE)
-  )
-  df$deaths <- rnorm(n, mean = 39, sd = 15)
-    model <- lm(deaths ~ year, data = df)
-  p_val <- summary(model)$coefficients["year", "Pr(>|t|)"]
-  results$p_value[i] <- p_val
+  mortality <- table(sample(year, size=sample_sizes, replace=TRUE))
+  df <- data.frame(year=as.numeric(names(mortality)), deaths = as.numeric(mortality))
+  model <- lm(deaths~year, data=df)
+  p_value <- summary(model)$coefficients["year", "Pr(>|t|)"]
+  results$p_value[i] <- p_value
 }
 
-# View the results
 print(results)
 ```
 
-Since this uses a linear model, I altered the slope to test different effect sizes. 
-
 7. Alternatively, for the effect sizes you originally hypothesized, what is the minimum sample size you would need in order to detect a statistically significant effect? Again, run the model a few times with the same parameter set to get a feeling for the effect of random variation in the data.
 
+To determine the minimum sample size needed to detect a statistically significant effect, I am modifying the original linear model to account for effect size. 
+
+```
+year <- 1992:2021
+intercept <- 55 # number of deaths in 1992
+effect_size <- -1.4 # decrease in number of deaths per year
+sample_size <- 400 # total number of deaths over study period
+
+mortality <- table(sample(year, size = sample_size, replace = TRUE)) #random assignment of numbers of deaths to study years
+plot(as.numeric(mortality)~year) # little to no association
+mortality_numeric <- as.numeric(mortality)
+
+deaths <- intercept + effect_size * 1:30 * as.numeric(mortality) + # create decreasing trend
+  rnorm(30, mean=0, sd=15) # add noise 
+plot(deaths~year)
+
+model <- lm(deaths~year)
+summary(model)
+
+# use a for loop to determine minimum sample size
+for (i in seq(10, 100, by=5)) {
+  mortality <- table(sample(year, size = i, replace = TRUE))
+  deaths <- intercept + effect_size * mortality_numeric * 1:30 + # create decreasing trend
+  rnorm(30, mean=0, sd=15)
+  model <- lm(deaths~year)
+  p_value <- summary(model)$coefficients[2, 4]
+  cat("Sample size:", i, "- p-value:", p_value, "\n")}
+}
+
+for (i in seq(10, 100, by=5)) {
+  mortality <- table(sample(year, size = i, replace = TRUE))
+  deaths <- mortality_numeric + effect_size * 1:30 + # create decreasing trend
+  rnorm(30, mean=0, sd=15)
+  model <- lm(deaths~year)
+  p_value <- summary(model)$coefficients[2, 4]
+  cat("Sample size:", i, "- p-value:", p_value, "\n")}
+}
+```
+
+This produces a statistically significant downward trend in cervical cancer deaths over time, as demonstrated in the study. 
+
+To determine the minimum sample size needed to see a significant effect, I used another for loop.  
+
 8. Write up your results in a markdown file, organized with headers and different code chunks to show your analysis. Be explicit in your explanation and justification for sample sizes, means, and variances.
+
+Weaknesses of the model: 
+simulated deaths can decrease below zero
+doesnt actually account for introduction of the HPV vaccine in 2006 
 
 9. If you have time, try repeating this exercise with one of the more sophisticated distributions, such as the gamma or negative binomial (depending on the kind of data you have). You will have to spend some time figuring out by trial and error the parameter values you will need to generate appropriate means and variances of the different groups.
