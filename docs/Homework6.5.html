@@ -272,6 +272,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework7.html">Homework 7</a>
     </li>
+    <li>
+      <a href="Homework8.html">Homework 8</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -315,7 +318,7 @@ deaths.</p>
 str(data_frame)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    30 obs. of  2 variables:
 ##  $ year  : int  1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 ...
-##  $ deaths: num  46.41 3.59 56.34 66.2 27.55 ...</code></pre>
+##  $ deaths: num  36.8 60.3 33.7 67 34.6 ...</code></pre>
 <p>To analyze this data, I used a linear model. Since it is randomly
 generated and distributed, there is little to no association between
 year and mortality.</p>
@@ -327,17 +330,17 @@ summary(model)</code></pre>
 ## lm(formula = deaths ~ year)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -30.8321  -9.8687  -0.9591  11.4910  31.2414 
+##     Min      1Q  Median      3Q     Max 
+## -26.737 -11.393  -0.457   7.269  36.144 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept) -493.8407   634.7330  -0.778    0.443
-## year           0.2651     0.3163   0.838    0.409
+##             Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept) 805.7079   641.4892   1.256    0.219
+## year         -0.3802     0.3197  -1.189    0.244
 ## 
-## Residual standard error: 15 on 28 degrees of freedom
-## Multiple R-squared:  0.02446,    Adjusted R-squared:  -0.01038 
-## F-statistic: 0.7021 on 1 and 28 DF,  p-value: 0.4092</code></pre>
+## Residual standard error: 15.16 on 28 degrees of freedom
+## Multiple R-squared:  0.04808,    Adjusted R-squared:  0.01409 
+## F-statistic: 1.414 on 1 and 28 DF,  p-value: 0.2443</code></pre>
 <pre class="r"><code># visualize dataset 
 plot(year, deaths)</code></pre>
 <p><img src="Homework6.5_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -404,19 +407,19 @@ summary(model)</code></pre>
 ## lm(formula = deaths ~ year, data = results)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -24.416 -10.406  -2.742  15.035  23.142 
+##      Min       1Q   Median       3Q      Max 
+## -24.9903 -11.5726  -0.3471  12.3050  26.2679 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 2784.9791   632.3010   4.405 0.000141 ***
-## year          -1.3696     0.3151  -4.346 0.000165 ***
+## (Intercept) 3742.8714   654.9302   5.715 3.95e-06 ***
+## year          -1.8496     0.3264  -5.667 4.50e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 14.94 on 28 degrees of freedom
-## Multiple R-squared:  0.4028, Adjusted R-squared:  0.3815 
-## F-statistic: 18.89 on 1 and 28 DF,  p-value: 0.0001651</code></pre>
+## Residual standard error: 15.47 on 28 degrees of freedom
+## Multiple R-squared:  0.5342, Adjusted R-squared:  0.5176 
+## F-statistic: 32.11 on 1 and 28 DF,  p-value: 4.505e-06</code></pre>
 </div>
 
 

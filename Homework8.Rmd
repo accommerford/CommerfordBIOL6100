@@ -1,0 +1,142 @@
+---
+title: "Homework 8"
+author: "Audrey Commerford"
+date: "2025-03-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Simulating and Fitting Data Distributions
+
+I used data from [this study](https://datadryad.org/dataset/doi:10.5061/dryad.vhhmgqp2t) on Dryad, which includes measurements of butterfly wing area measured in mm^2. 
+
+### Open Libraries
+
+```{r}
+library(ggplot2) # for graphics
+library(MASS) # for maximum likelihood estimation
+```
+
+### Read in Data
+
+```{r}
+z <- na.omit(read.table("ButterflyData.csv",header=TRUE,sep=",")) # create data frame and remove NA values
+str(z)
+summary(z)
+```
+
+### Plot histogram of data
+
+```{r}
+p1 <- ggplot(data=z, aes(x=wing_area_mm2, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+print(p1)
+```
+
+### Add empirical density curve
+
+Now modify the code to add in a kernel density plot of the data. This is an empirical curve that is fitted to the data. It does not assume any particular probability distribution, but it smooths out the shape of the histogram:
+
+```{r}
+p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
+print(p1)
+```
+
+### Get maximum likelihood parameters for normal
+
+Next, fit a normal distribution to your data and grab the maximum likelihood estimators of the two parameters of the normal, the mean and the variance:
+
+```{r}
+normPars <- fitdistr(z$wing_area_mm2,"normal")
+print(normPars)
+str(normPars)
+normPars$estimate["mean"] # note structure of getting a named attribute
+```
+
+### Plot `normal` probability density
+
+Now let’s call the `dnorm` function inside ggplot’s `stat_function` to generate the probability density for the normal distribution. Read about `stat_function` in the help system to see how you can use this to add a smooth function to any ggplot. Note that we first get the maximum likelihood parameters for a normal distribution fitted to thse data by calling `fitdistr`. Then we pass those parameters (`meanML` and `sdML` to `stat_function`):
+
+```{r}
+meanML <- normPars$estimate["mean"]
+sdML <- normPars$estimate["sd"]
+
+xval <- seq(0,max(z$wing_area_mm2),len=length(z$wing_area_mm2))
+
+stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$wing_area_mm2), args = list(mean = meanML, sd = sdML))
+ p1 + stat
+```
+
+Notice that the best-fitting normal distribution (red curve) for these data actually has a biased mean. That is because the data set has no negative values, so the normal distribution (which is symmetric) is not working well.
+
+### Plot `exponential` probability density
+
+Now let’s use the same template and add in the curve for the exponential:
+
+```{r}
+expoPars <- fitdistr(z$wing_area_mm2,"exponential")
+rateML <- expoPars$estimate["rate"]
+
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$wing_area_mm2), args = list(rate=rateML))
+ p1 + stat + stat2
+```
+
+### Plot `uniform` probability density
+
+For the uniform, we don’t need to use fitdistr because the maximum likelihood estimators of the two parameters are just the minimum and the maximum of the data:
+
+```{r}
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$wing_area_mm2), args = list(min=min(z$wing_area_mm2), max=max(z$wing_area_mm2)))
+ p1 + stat + stat2 + stat3
+```
+
+### Plot `gamma` probability density
+
+```{r}
+gammaPars <- fitdistr(z$wing_area_mm2,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$wing_area_mm2), args = list(shape=shapeML, rate=rateML))
+ p1 + stat + stat2 + stat3 + stat4
+```
+
+### Plot `beta` probability density
+
+This one has to be shown in its own plot because the raw data must be rescaled so they are between 0 and 1, and then they can be compared to the beta.
+
+```{r}
+pSpecial <- ggplot(data=z, aes(x=wing_area_mm2/(max(wing_area_mm2 + 0.1)), y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  xlim(c(0,1)) +
+  geom_density(size=0.75,linetype="dotted")
+
+betaPars <- fitdistr(x=z$wing_area_mm2/max(z$wing_area_mm2 + 0.1),start=list(shape1=1,shape2=2),"beta")
+shape1ML <- betaPars$estimate["shape1"]
+shape2ML <- betaPars$estimate["shape2"]
+
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$wing_area_mm2), args = list(shape1=shape1ML,shape2=shape2ML))
+pSpecial + statSpecial
+```
+
+### Find Best-Fitting Distribution
+
+For this dataset, both the normal and gamma distributions appear to be a close fit. 
+
+### Simulate a New Data Set
+
+This model simulates new data using a normal distribution. This does appear to simulate realistic data that matches the original measurements. Given that the original dataset is a measurement of wing area of butterflies, it makes sense that the measurements would approximately follow a normal distribution. 
+
+```{r}
+x <- 1:292
+newData <- rnorm(292, mean = meanML, sd = sdML)
+df <- cbind(x, newData)
+
+ggplot(data = df, aes(x = newData, y = ..density..)) + 
+  geom_histogram(color = "grey60", fill = "cornsilk") + 
+  geom_density(linetype="dotted",size=0.75)
+```
+
