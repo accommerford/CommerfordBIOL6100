@@ -1,0 +1,15 @@
+---
+title: "Homework 9"
+author: "Audrey Commerford"
+date: "2025-03-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Strategic Coding Practices
+
+[Here](Homework9.zip) is my final zip file. 
+

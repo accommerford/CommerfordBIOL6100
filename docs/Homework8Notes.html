@@ -275,6 +275,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework8.html">Homework 8</a>
     </li>
+    <li>
+      <a href="Homework9.html">Homework 9</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -314,12 +317,12 @@ z &lt;- data.frame(1:3000,z)
 names(z) &lt;- list(&quot;ID&quot;,&quot;myVar&quot;)
 z &lt;- z[z$myVar&gt;0,]
 str(z)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    1707 obs. of  2 variables:
-##  $ ID   : int  3 4 8 9 10 11 13 14 18 24 ...
-##  $ myVar: num  2.323 0.834 1.372 1.624 0.49 ...</code></pre>
+<pre><code>## &#39;data.frame&#39;:    1685 obs. of  2 variables:
+##  $ ID   : int  2 4 5 7 9 12 14 16 17 18 ...
+##  $ myVar: num  0.40961 0.49757 1.32624 0.00692 0.40127 ...</code></pre>
 <pre class="r"><code>summary(z$myVar)</code></pre>
 <pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## 0.001466 0.363659 0.730554 0.864909 1.209290 4.449736</code></pre>
+## 0.000498 0.410138 0.778420 0.885738 1.240468 4.290421</code></pre>
 <p>In the third step of this exercise, you will substitute in your own
 data for this fake data set. But for now, use the code chunks below to
 see how you fit different statistical distributions to a vector of
@@ -360,24 +363,24 @@ the variance:</p>
 <pre class="r"><code>normPars &lt;- fitdistr(z$myVar,&quot;normal&quot;)
 print(normPars)</code></pre>
 <pre><code>##       mean          sd    
-##   0.86490914   0.64573798 
-##  (0.01562930) (0.01105159)</code></pre>
+##   0.88573763   0.62435180 
+##  (0.01521001) (0.01075510)</code></pre>
 <pre class="r"><code>str(normPars)</code></pre>
 <pre><code>## List of 5
-##  $ estimate: Named num [1:2] 0.865 0.646
+##  $ estimate: Named num [1:2] 0.886 0.624
 ##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;mean&quot; &quot;sd&quot;
-##  $ sd      : Named num [1:2] 0.0156 0.0111
+##  $ sd      : Named num [1:2] 0.0152 0.0108
 ##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;mean&quot; &quot;sd&quot;
-##  $ vcov    : num [1:2, 1:2] 0.000244 0 0 0.000122
+##  $ vcov    : num [1:2, 1:2] 0.000231 0 0 0.000116
 ##   ..- attr(*, &quot;dimnames&quot;)=List of 2
 ##   .. ..$ : chr [1:2] &quot;mean&quot; &quot;sd&quot;
 ##   .. ..$ : chr [1:2] &quot;mean&quot; &quot;sd&quot;
-##  $ n       : int 1707
-##  $ loglik  : num -1676
+##  $ n       : int 1685
+##  $ loglik  : num -1597
 ##  - attr(*, &quot;class&quot;)= chr &quot;fitdistr&quot;</code></pre>
 <pre class="r"><code>normPars$estimate[&quot;mean&quot;] # note structure of getting a named attribute</code></pre>
 <pre><code>##      mean 
-## 0.8649091</code></pre>
+## 0.8857376</code></pre>
 </div>
 <div id="plot-normal-probability-density" class="section level2">
 <h2>Plot <code>normal</code> probability density</h2>
@@ -471,8 +474,8 @@ statSpecial &lt;- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour=&q
 pSpecial + statSpecial</code></pre>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
 ## `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside
-## the scale range (`geom_bar()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values outside the
+## scale range (`geom_bar()`).</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
