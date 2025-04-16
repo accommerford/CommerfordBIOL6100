@@ -278,6 +278,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework9.html">Homework 9</a>
     </li>
+    <li>
+      <a href="Homework10.html">Homework 10</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -317,12 +320,12 @@ z &lt;- data.frame(1:3000,z)
 names(z) &lt;- list(&quot;ID&quot;,&quot;myVar&quot;)
 z &lt;- z[z$myVar&gt;0,]
 str(z)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    1685 obs. of  2 variables:
-##  $ ID   : int  2 4 5 7 9 12 14 16 17 18 ...
-##  $ myVar: num  0.40961 0.49757 1.32624 0.00692 0.40127 ...</code></pre>
+<pre><code>## &#39;data.frame&#39;:    1717 obs. of  2 variables:
+##  $ ID   : int  3 4 5 6 7 8 9 10 11 12 ...
+##  $ myVar: num  1.847 2.079 0.936 2.001 0.152 ...</code></pre>
 <pre class="r"><code>summary(z$myVar)</code></pre>
 <pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-## 0.000498 0.410138 0.778420 0.885738 1.240468 4.290421</code></pre>
+## 0.000899 0.370134 0.795784 0.900268 1.306529 3.993670</code></pre>
 <p>In the third step of this exercise, you will substitute in your own
 data for this fake data set. But for now, use the code chunks below to
 see how you fit different statistical distributions to a vector of
@@ -338,7 +341,8 @@ to density, so that the area under the histogram equals 1.0.</p>
 <pre class="r"><code>p1 &lt;- ggplot(data=z, aes(x=myVar, y=..density..)) +
   geom_histogram(color=&quot;grey60&quot;,fill=&quot;cornsilk&quot;,size=0.2) 
 print(p1)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
@@ -350,7 +354,8 @@ particular probability distribution, but it smooths out the shape of the
 histogram:</p>
 <pre class="r"><code>p1 &lt;-  p1 +  geom_density(linetype=&quot;dotted&quot;,size=0.75)
 print(p1)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
@@ -363,24 +368,24 @@ the variance:</p>
 <pre class="r"><code>normPars &lt;- fitdistr(z$myVar,&quot;normal&quot;)
 print(normPars)</code></pre>
 <pre><code>##       mean          sd    
-##   0.88573763   0.62435180 
-##  (0.01521001) (0.01075510)</code></pre>
+##   0.90026818   0.65566553 
+##  (0.01582331) (0.01118877)</code></pre>
 <pre class="r"><code>str(normPars)</code></pre>
 <pre><code>## List of 5
-##  $ estimate: Named num [1:2] 0.886 0.624
+##  $ estimate: Named num [1:2] 0.9 0.656
 ##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;mean&quot; &quot;sd&quot;
-##  $ sd      : Named num [1:2] 0.0152 0.0108
+##  $ sd      : Named num [1:2] 0.0158 0.0112
 ##   ..- attr(*, &quot;names&quot;)= chr [1:2] &quot;mean&quot; &quot;sd&quot;
-##  $ vcov    : num [1:2, 1:2] 0.000231 0 0 0.000116
+##  $ vcov    : num [1:2, 1:2] 0.00025 0 0 0.000125
 ##   ..- attr(*, &quot;dimnames&quot;)=List of 2
 ##   .. ..$ : chr [1:2] &quot;mean&quot; &quot;sd&quot;
 ##   .. ..$ : chr [1:2] &quot;mean&quot; &quot;sd&quot;
-##  $ n       : int 1685
-##  $ loglik  : num -1597
+##  $ n       : int 1717
+##  $ loglik  : num -1712
 ##  - attr(*, &quot;class&quot;)= chr &quot;fitdistr&quot;</code></pre>
 <pre class="r"><code>normPars$estimate[&quot;mean&quot;] # note structure of getting a named attribute</code></pre>
 <pre><code>##      mean 
-## 0.8857376</code></pre>
+## 0.9002682</code></pre>
 </div>
 <div id="plot-normal-probability-density" class="section level2">
 <h2>Plot <code>normal</code> probability density</h2>
@@ -400,7 +405,8 @@ xval &lt;- seq(0,max(z$myVar),len=length(z$myVar))
 
 stat &lt;- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour=&quot;red&quot;, n = length(z$myVar), args = list(mean = meanML, sd = sdML))
  p1 + stat</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Notice that the best-fitting normal distribution (red curve) for
@@ -417,7 +423,8 @@ rateML &lt;- expoPars$estimate[&quot;rate&quot;]
 
 stat2 &lt;- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour=&quot;blue&quot;, n = length(z$myVar), args = list(rate=rateML))
  p1 + stat + stat2</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
@@ -428,7 +435,8 @@ likelihood estimators of the two parameters are just the minimum and the
 maximum of the data:</p>
 <pre class="r"><code>stat3 &lt;- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour=&quot;darkgreen&quot;, n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
  p1 + stat + stat2 + stat3</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
@@ -447,7 +455,8 @@ rateML &lt;- gammaPars$estimate[&quot;rate&quot;]
 
 stat4 &lt;- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour=&quot;brown&quot;, n = length(z$myVar), args = list(shape=shapeML, rate=rateML))
  p1 + stat + stat2 + stat3 + stat4</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
@@ -472,10 +481,13 @@ shape2ML &lt;- betaPars$estimate[&quot;shape2&quot;]
 
 statSpecial &lt;- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour=&quot;orchid&quot;, n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
 pSpecial + statSpecial</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the
-## scale range (`geom_bar()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing
+## missing values or values
+## outside the scale range
+## (`geom_bar()`).</code></pre>
 <p><img src="Homework8Notes_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>

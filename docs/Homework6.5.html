@@ -278,6 +278,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework9.html">Homework 9</a>
     </li>
+    <li>
+      <a href="Homework10.html">Homework 10</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -321,7 +324,7 @@ deaths.</p>
 str(data_frame)</code></pre>
 <pre><code>## &#39;data.frame&#39;:    30 obs. of  2 variables:
 ##  $ year  : int  1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 ...
-##  $ deaths: num  46.9 52.1 56.9 33.3 27.6 ...</code></pre>
+##  $ deaths: num  51.9 50 32.6 29 56.6 ...</code></pre>
 <p>To analyze this data, I used a linear model. Since it is randomly
 generated and distributed, there is little to no association between
 year and mortality.</p>
@@ -334,16 +337,16 @@ summary(model)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -36.163  -9.940  -1.594   9.982  44.240 
+## -22.105  -8.361  -2.483   8.872  35.602 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(&gt;|t|)
-## (Intercept) 1120.1035   728.7814   1.537    0.136
-## year          -0.5388     0.3632  -1.483    0.149
+## (Intercept) -552.0010   539.3016  -1.024    0.315
+## year           0.2975     0.2688   1.107    0.278
 ## 
-## Residual standard error: 17.22 on 28 degrees of freedom
-## Multiple R-squared:  0.07287,    Adjusted R-squared:  0.03976 
-## F-statistic: 2.201 on 1 and 28 DF,  p-value: 0.1491</code></pre>
+## Residual standard error: 12.74 on 28 degrees of freedom
+## Multiple R-squared:  0.04193,    Adjusted R-squared:  0.007718 
+## F-statistic: 1.226 on 1 and 28 DF,  p-value: 0.2777</code></pre>
 <pre class="r"><code># visualize dataset 
 plot(year, deaths)</code></pre>
 <p><img src="Homework6.5_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -411,18 +414,18 @@ summary(model)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -52.757  -8.319   1.379  11.170  31.774 
+## -30.668 -12.438   4.441  13.905  29.252 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)  
-## (Intercept) 1491.3320   804.4091   1.854   0.0743 .
-## year          -0.7278     0.4009  -1.815   0.0802 .
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 3502.4872   722.1788   4.850 4.18e-05 ***
+## year          -1.7267     0.3599  -4.797 4.82e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 19.01 on 28 degrees of freedom
-## Multiple R-squared:  0.1053, Adjusted R-squared:  0.07335 
-## F-statistic: 3.296 on 1 and 28 DF,  p-value: 0.08019</code></pre>
+## Residual standard error: 17.06 on 28 degrees of freedom
+## Multiple R-squared:  0.4512, Adjusted R-squared:  0.4315 
+## F-statistic: 23.02 on 1 and 28 DF,  p-value: 4.825e-05</code></pre>
 </div>
 
 

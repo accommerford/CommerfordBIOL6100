@@ -325,13 +325,17 @@ library(ggridges)
 library(ggmosaic)
 
 tuesdata &lt;- tidytuesdayR::tt_load(&#39;2024-07-30&#39;)</code></pre>
-<pre><code>## ---- Compiling #TidyTuesday Information for 2024-07-30 ----</code></pre>
-<pre><code>## --- There are 2 files available ---
+<pre><code>## ---- Compiling #TidyTuesday
+## Information for 2024-07-30
+## ----</code></pre>
+<pre><code>## --- There are 2 files
+## available ---
 ## 
 ## 
-## ── Downloading files ───────────────────────────────────────────────────────────
+## ── Downloading files ─────────
 ## 
-##   1 of 2: &quot;summer_movie_genres.csv&quot;
+##   1 of 2:
+##   &quot;summer_movie_genres.csv&quot;
 ##   2 of 2: &quot;summer_movies.csv&quot;</code></pre>
 <pre class="r"><code>summer_movie_genres &lt;- tuesdata$summer_movie_genres
 summer_movies &lt;- tuesdata$summer_movies
@@ -391,7 +395,9 @@ summer_movies %&gt;%
   scale_fill_brewer(palette = &quot;Set2&quot;) +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <pre><code>## Picking joint bandwidth of 7.37</code></pre>
-<pre><code>## Warning: Removed 20 rows containing non-finite outside the scale range
+<pre><code>## Warning: Removed 20 rows containing
+## non-finite outside the scale
+## range
 ## (`stat_density_ridges()`).</code></pre>
 <p><img src="Homework10_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Finally, I created a mosaic plot to compare the relative frequencies
@@ -426,22 +432,42 @@ ggplot(summer_movies_shortened) +
     legend.key.size = unit(0.5, &quot;cm&quot;),
     legend.text = element_text(size = 8)
   )</code></pre>
-<pre><code>## Warning: The `scale_name` argument of `continuous_scale()` is deprecated as of ggplot2
+<pre><code>## Warning: The `scale_name` argument of
+## `continuous_scale()` is
+## deprecated as of ggplot2
 ## 3.5.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
 ## generated.</code></pre>
-<pre><code>## Warning: The `trans` argument of `continuous_scale()` is deprecated as of ggplot2 3.5.0.
-## ℹ Please use the `transform` argument instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+<pre><code>## Warning: The `trans` argument of
+## `continuous_scale()` is
+## deprecated as of ggplot2
+## 3.5.0.
+## ℹ Please use the `transform`
+##   argument instead.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
 ## generated.</code></pre>
-<pre><code>## Warning: `unite_()` was deprecated in tidyr 1.2.0.
-## ℹ Please use `unite()` instead.
-## ℹ The deprecated feature was likely used in the ggmosaic package.
-##   Please report the issue at &lt;https://github.com/haleyjeppson/ggmosaic&gt;.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+<pre><code>## Warning: `unite_()` was deprecated in
+## tidyr 1.2.0.
+## ℹ Please use `unite()`
+##   instead.
+## ℹ The deprecated feature was
+##   likely used in the ggmosaic
+##   package.
+##   Please report the issue at
+##   &lt;https://github.com/haleyjeppson/ggmosaic&gt;.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
 ## generated.</code></pre>
 <p><img src="Homework10_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>

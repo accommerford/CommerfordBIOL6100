@@ -278,6 +278,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework9.html">Homework 9</a>
     </li>
+    <li>
+      <a href="Homework10.html">Homework 10</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -343,20 +346,32 @@ str(z)</code></pre>
 <h3>Plot histogram of data</h3>
 <pre class="r"><code>p1 &lt;- ggplot(data=z, aes(x=wing_area_mm2, y=..density..)) +
   geom_histogram(color=&quot;grey60&quot;,fill=&quot;cornsilk&quot;,size=0.2) </code></pre>
-<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2
-## 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this
-## warning was generated.</code></pre>
+<pre><code>## Warning: Using `size` aesthetic for
+## lines was deprecated in
+## ggplot2 3.4.0.
+## ℹ Please use `linewidth`
+##   instead.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
+## generated.</code></pre>
 <pre class="r"><code>print(p1)</code></pre>
-<pre><code>## Warning: The dot-dot notation (`..density..`) was deprecated in ggplot2
-## 3.4.0.
-## ℹ Please use `after_stat(density)` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this
-## warning was generated.</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## Warning: The dot-dot notation
+## (`..density..`) was
+## deprecated in ggplot2 3.4.0.
+## ℹ Please use
+##   `after_stat(density)`
+##   instead.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
+## generated.</code></pre>
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
@@ -368,7 +383,8 @@ particular probability distribution, but it smooths out the shape of the
 histogram:</p>
 <pre class="r"><code>p1 &lt;-  p1 +  geom_density(linetype=&quot;dotted&quot;,size=0.75)
 print(p1)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
@@ -418,7 +434,8 @@ xval &lt;- seq(0,max(z$wing_area_mm2),len=length(z$wing_area_mm2))
 
 stat &lt;- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour=&quot;red&quot;, n = length(z$wing_area_mm2), args = list(mean = meanML, sd = sdML))
  p1 + stat</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Notice that the best-fitting normal distribution (red curve) for
@@ -435,7 +452,8 @@ rateML &lt;- expoPars$estimate[&quot;rate&quot;]
 
 stat2 &lt;- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour=&quot;blue&quot;, n = length(z$wing_area_mm2), args = list(rate=rateML))
  p1 + stat + stat2</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
@@ -446,7 +464,8 @@ likelihood estimators of the two parameters are just the minimum and the
 maximum of the data:</p>
 <pre class="r"><code>stat3 &lt;- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour=&quot;darkgreen&quot;, n = length(z$wing_area_mm2), args = list(min=min(z$wing_area_mm2), max=max(z$wing_area_mm2)))
  p1 + stat + stat2 + stat3</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
@@ -458,7 +477,8 @@ rateML &lt;- gammaPars$estimate[&quot;rate&quot;]
 
 stat4 &lt;- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour=&quot;brown&quot;, n = length(z$wing_area_mm2), args = list(shape=shapeML, rate=rateML))
  p1 + stat + stat2 + stat3 + stat4</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
@@ -487,10 +507,13 @@ shape2ML &lt;- betaPars$estimate[&quot;shape2&quot;]
 
 statSpecial &lt;- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour=&quot;orchid&quot;, n = length(z$wing_area_mm2), args = list(shape1=shape1ML,shape2=shape2ML))
 pSpecial + statSpecial</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the
-## scale range (`geom_bar()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing
+## missing values or values
+## outside the scale range
+## (`geom_bar()`).</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="find-best-fitting-distribution" class="section level3">
@@ -512,7 +535,8 @@ df &lt;- cbind(x, newData)
 ggplot(data = df, aes(x = newData, y = ..density..)) + 
   geom_histogram(color = &quot;grey60&quot;, fill = &quot;cornsilk&quot;) + 
   geom_density(linetype=&quot;dotted&quot;,size=0.75)</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with
+<pre><code>## `stat_bin()` using `bins =
+## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="Homework8_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>

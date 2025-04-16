@@ -278,6 +278,9 @@ $(document).ready(function () {
     <li>
       <a href="Homework9.html">Homework 9</a>
     </li>
+    <li>
+      <a href="Homework10.html">Homework 10</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -336,56 +339,56 @@ data frame with the appropriate structure.</li>
 data_frame &lt;- data.frame(exposure, dental_caries)
 print(data_frame)</code></pre>
 <pre><code>##    exposure dental_caries
-## 1  46.23786      3.201675
-## 2  34.33269      3.181239
-## 3  33.55859      2.977205
-## 4  35.38254      3.260507
-## 5  26.56574      3.571703
-## 6  45.46558      3.355210
-## 7  26.52381      2.822582
-## 8  48.39604      3.203246
-## 9  42.60803      2.733303
-## 10 50.91736      3.131527
-## 11 47.16562      2.857518
-## 12 46.94972      3.251199
-## 13 57.56607      2.906380
-## 14 35.16441      2.893368
-## 15 42.80242      2.827038
-## 16 49.89363      2.792740
-## 17 30.30546      3.175545
-## 18 42.75799      2.719180
-## 19 41.95089      3.092848
-## 20 16.31533      2.826606
-## 21 48.86335      2.946266
-## 22 40.69354      2.962680
-## 23 46.46076      3.224315
-## 24 26.23817      2.784086
-## 25 51.03296      2.860416
-## 26 40.52755      2.871831
-## 27 40.30319      2.939108
-## 28 42.66851      3.341296
-## 29 44.04856      3.354552
-## 30 40.07367      3.215928
-## 31 31.34231      2.725381
-## 32 52.58607      3.014619
-## 33 38.66119      2.830217
-## 34 44.59471      3.488274
-## 35 63.68691      3.230281
-## 36 32.77963      3.108260
-## 37 43.74723      2.827311
-## 38 28.49749      2.787045
-## 39 32.36904      2.947527
-## 40 63.80955      3.297372
-## 41 47.88911      3.113493
-## 42 41.07538      3.322576
-## 43 35.93576      3.056110
-## 44 37.43754      3.113522
-## 45 30.67715      3.201118
-## 46 30.12987      2.880675
-## 47 56.43406      3.022433
-## 48 32.47587      2.917128
-## 49 18.15453      3.037658
-## 50 46.07184      2.932482</code></pre>
+## 1  23.60451      2.842308
+## 2  37.85410      2.775077
+## 3  50.91360      3.237841
+## 4  43.27352      3.031734
+## 5  49.43258      3.419569
+## 6  45.85160      3.286042
+## 7  42.30243      2.934558
+## 8  64.39535      3.213948
+## 9  54.68760      3.181618
+## 10 26.61099      3.313620
+## 11 28.40315      2.957554
+## 12 26.22716      2.894695
+## 13 56.49020      3.104564
+## 14 53.08434      3.198234
+## 15 46.00258      2.958000
+## 16 51.37248      3.293843
+## 17 36.71113      3.180694
+## 18 57.68262      3.474102
+## 19 15.20737      3.245311
+## 20 31.13751      2.892502
+## 21 31.45470      3.219505
+## 22 32.84712      2.917153
+## 23 43.26931      3.213744
+## 24 38.04714      2.851920
+## 25 58.38962      2.799985
+## 26 39.64165      2.987901
+## 27 29.49431      2.999653
+## 28 37.82211      2.989746
+## 29 39.65615      2.736703
+## 30 26.07274      3.346325
+## 31 20.15657      3.590882
+## 32 28.94974      3.206594
+## 33 27.67111      2.965003
+## 34 43.89387      3.155711
+## 35 36.86740      3.517482
+## 36 30.26169      3.113321
+## 37 40.12174      2.844160
+## 38 35.28261      3.297559
+## 39 34.47219      2.769525
+## 40 36.51662      3.069345
+## 41 27.18005      3.007218
+## 42 57.17066      2.642415
+## 43 40.63276      2.927323
+## 44 22.82362      2.971780
+## 45 39.39132      3.263241
+## 46 30.97694      3.125523
+## 47 45.67175      3.136891
+## 48 36.36241      2.984518
+## 49 38.72814      3.117270
+## 50 28.99815      3.213599</code></pre>
 <pre class="r"><code># fitting the variables to a linear model
 model &lt;- lm(dental_caries~exposure)</code></pre>
 <ol start="4" style="list-style-type: decimal">
@@ -400,15 +403,19 @@ anova(model)</code></pre>
 ## 
 ## Response: dental_caries
 ##           Df  Sum Sq  Mean Sq F value Pr(&gt;F)
-## exposure   1 0.07272 0.072718  1.6451 0.2058
-## Residuals 48 2.12169 0.044202</code></pre>
+## exposure   1 0.00004 0.000041   9e-04 0.9762
+## Residuals 48 2.18056 0.045428</code></pre>
 <pre class="r"><code># and qplot to plot the results
 library(ggplot2)
 qplot(x=exposure, y=dental_caries)</code></pre>
-<pre><code>## Warning: `qplot()` was deprecated in ggplot2 3.4.0.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this
-## warning was generated.</code></pre>
+<pre><code>## Warning: `qplot()` was deprecated in
+## ggplot2 3.4.0.
+## This warning is displayed
+## once every 8 hours.
+## Call
+## `lifecycle::last_lifecycle_warnings()`
+## to see where this warning was
+## generated.</code></pre>
 <p><img src="Homework6_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <ol start="5" style="list-style-type: decimal">
 <li><p>Try running your analysis multiple times to get a feeling for how
@@ -453,16 +460,16 @@ for (i in seq_along(sample_sizes)) {
 # View the results
 print(results)</code></pre>
 <pre><code>##    SampleSize    PValue Significant
-## 1          10 0.5886245       FALSE
-## 2          20 0.1216958       FALSE
-## 3          30 0.6470651       FALSE
-## 4          40 0.6645833       FALSE
-## 5          50 0.7097684       FALSE
-## 6          60 0.6428127       FALSE
-## 7          70 0.9861521       FALSE
-## 8          80 0.9449129       FALSE
-## 9          90 0.3094341       FALSE
-## 10        100 0.2230133       FALSE</code></pre>
+## 1          10 0.0433452        TRUE
+## 2          20 0.6578757       FALSE
+## 3          30 0.1331839       FALSE
+## 4          40 0.9679136       FALSE
+## 5          50 0.3970212       FALSE
+## 6          60 0.1052487       FALSE
+## 7          70 0.3225204       FALSE
+## 8          80 0.5788604       FALSE
+## 9          90 0.3645178       FALSE
+## 10        100 0.9136789       FALSE</code></pre>
 <ol start="7" style="list-style-type: decimal">
 <li><p>Alternatively, for the effect sizes you originally hypothesized,
 what is the minimum sample size you would need in order to detect a
